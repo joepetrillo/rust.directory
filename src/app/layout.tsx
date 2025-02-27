@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import ThemeSwitcher from "./theme-switcher";
 
 const unicaSans = localFont({
   src: [
@@ -40,11 +42,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html suppressHydrationWarning lang="en">
       <body
-        className={`${unicaSans.variable} ${geistMono.variable} bg-black font-sans text-neutral-300 antialiased`}
+        className={`${unicaSans.variable} ${geistMono.variable} bg-stone-200 font-sans text-stone-700 antialiased dark:bg-stone-950 dark:text-stone-300`}
       >
-        {children}
+        <ThemeProvider>
+          {children}
+          <ThemeSwitcher />
+        </ThemeProvider>
       </body>
     </html>
   );
