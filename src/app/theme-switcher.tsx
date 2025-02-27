@@ -11,7 +11,7 @@ interface ThemeSwitcherProps {
 function ThemeSwitcher(props: ThemeSwitcherProps) {
   const { toggleKey = "t", showIndicator = true } = props;
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -27,7 +27,7 @@ function ThemeSwitcher(props: ThemeSwitcherProps) {
           target.isContentEditable;
 
         if (!isInput && event.key.toLowerCase() === toggleKey.toLowerCase()) {
-          setTheme(theme === "dark" ? "light" : "dark");
+          setTheme(resolvedTheme === "dark" ? "light" : "dark");
         }
       }
 
@@ -37,7 +37,7 @@ function ThemeSwitcher(props: ThemeSwitcherProps) {
         window.removeEventListener("keydown", handleKeyPress);
       };
     },
-    [theme, setTheme, toggleKey],
+    [resolvedTheme, setTheme, toggleKey],
   );
 
   if (!mounted || !showIndicator) {
@@ -46,7 +46,7 @@ function ThemeSwitcher(props: ThemeSwitcherProps) {
 
   return (
     <div className="fixed right-4 bottom-4 bg-white p-3 text-black">
-      <p className="font-mono text-sm">{theme}</p>
+      <p className="font-mono text-sm">{resolvedTheme}</p>
     </div>
   );
 }
