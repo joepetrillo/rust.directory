@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <body
-        className={`${unicaSans.variable} ${geistMono.variable} bg-stone-200 font-sans text-stone-700 antialiased dark:bg-stone-950 dark:text-stone-300`}
+        className={`${unicaSans.variable} ${geistMono.variable} bg-stone-100 font-sans text-stone-700 antialiased dark:bg-stone-950 dark:text-stone-300`}
       >
         <ThemeProvider>
           {children}
