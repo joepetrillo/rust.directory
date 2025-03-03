@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import ThemeSwitcher from "../components/theme-switcher";
 import "./globals.css";
-import ThemeSwitcher from "./theme-switcher";
 
 const unicaSans = localFont({
   src: [
