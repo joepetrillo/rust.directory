@@ -1,3 +1,47 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+@theme {
+  --color-blue: light-dark(oklch(45% 50% 264), oklch(69% 50% 264));
+  --color-red: light-dark(oklch(50% 55% 31), oklch(80% 55% 31));
+
+  --color-gray-50: light-dark(oklch(98% 0.25% 264), oklch(17% 1% 264));
+  --color-gray-100: light-dark(
+    oklch(12% 9.5% 264 / 5%),
+    oklch(28% 3% 264 / 65%)
+  );
+  --color-gray-200: light-dark(oklch(12% 9% 264 / 8%), oklch(31% 3% 264 / 80%));
+  --color-gray-300: light-dark(
+    oklch(12% 8.5% 264 / 17%),
+    oklch(35% 3% 264 / 80%)
+  );
+  --color-gray-400: light-dark(
+    oklch(12% 8% 264 / 38%),
+    oklch(47% 3.5% 264 / 80%)
+  );
+  --color-gray-500: light-dark(
+    oklch(12% 7.5% 264 / 50%),
+    oklch(64% 4% 264 / 80%)
+  );
+  --color-gray-600: light-dark(
+    oklch(12% 7% 264 / 67%),
+    oklch(82% 4% 264 / 80%)
+  );
+  --color-gray-700: light-dark(
+    oklch(12% 6% 264 / 77%),
+    oklch(92% 4.5% 264 / 80%)
+  );
+  --color-gray-800: light-dark(
+    oklch(12% 5% 264 / 85%),
+    oklch(93% 3.5% 264 / 85%)
+  );
+  --color-gray-900: light-dark(
+    oklch(12% 5% 264 / 90%),
+    oklch(95% 2% 264 / 90%)
+  );
+  --color-gray-950: light-dark(
+    oklch(12% 5% 264 / 95%),
+    oklch(94% 1.5% 264 / 95%)
+  );
+}
