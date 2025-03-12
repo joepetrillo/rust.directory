@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="px-4 py-4">
+    <footer className="px-4 py-6">
       <div className="mx-auto flex max-w-5xl items-center justify-between gap-2">
         <Link href="/" className="text-sm hover:underline">
           rust.directory

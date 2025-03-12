@@ -44,9 +44,9 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <body
-        className={`${unicaSans.variable} ${geistMono.variable} overflow-y-scroll bg-gray-100 font-sans text-gray-700 antialiased dark:bg-black`}
+        className={`${unicaSans.variable} ${geistMono.variable} overflow-y-scroll font-sans antialiased`}
       >
-        <ThemeProvider>
+        <ThemeProvider attribute="class">
           {children}
           <ThemeSwitcher />
         </ThemeProvider>
