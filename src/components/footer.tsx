@@ -1,4 +1,4 @@
-import { GitHubLogoIcon, HeartFilledIcon } from "@radix-ui/react-icons";
+import { SiGithub } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
 
 export default function Footer() {
@@ -10,10 +10,7 @@ export default function Footer() {
         </Link>
         <div className="flex items-center gap-2">
           <Link href="https://github.com/joepetrillo" target="_blank">
-            <GitHubLogoIcon />
-          </Link>
-          <Link href="https://buymeacoffee.com/jpetrillo" target="_blank">
-            <HeartFilledIcon />
+            <SiGithub />
           </Link>
         </div>
       </div>
