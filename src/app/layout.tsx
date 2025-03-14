@@ -5,25 +5,14 @@ import localFont from "next/font/local";
 import ThemeSwitcher from "../components/theme-switcher";
 import "./globals.css";
 
-const unicaSans = localFont({
-  src: [
-    {
-      path: "../../public/fonts/unica-regular.woff2",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/unica-medium.woff2",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/unica-bold.woff2",
-      weight: "700",
-      style: "normal",
-    },
-  ],
+const mori = localFont({
+  src: "../../public/fonts/mori-variable.woff2",
   variable: "--font-sans",
+});
+
+const editorial = localFont({
+  src: "../../public/fonts/editorial-variable.woff2",
+  variable: "--font-editorial",
 });
 
 const geistMono = Geist_Mono({
@@ -44,7 +33,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <body
-        className={`${unicaSans.variable} ${geistMono.variable} overflow-y-scroll font-sans antialiased`}
+        className={`${mori.variable} ${editorial.variable} ${geistMono.variable} overflow-y-scroll font-sans antialiased`}
       >
         <ThemeProvider attribute="class">
           {children}

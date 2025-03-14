@@ -40,15 +40,17 @@ function ThemeSwitcher(props: ThemeSwitcherProps) {
     [resolvedTheme, setTheme, toggleKey],
   );
 
-  if (!mounted || !showIndicator) {
-    return null;
-  }
+  return null;
 
-  return (
-    <div className="fixed right-4 bottom-4 bg-white p-3 text-black">
-      <p className="font-mono text-sm">{resolvedTheme}</p>
-    </div>
-  );
+  // if (!mounted || !showIndicator) {
+  //   return null;
+  // }
+
+  // return (
+  //   <div className="fixed right-4 bottom-4 bg-white p-3 text-black">
+  //     <p className="font-mono text-sm">{resolvedTheme}</p>
+  //   </div>
+  // );
 }
 
 export default ThemeSwitcher;
