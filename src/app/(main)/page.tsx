@@ -72,7 +72,7 @@ export default function Home() {
             />
             <div className="absolute inset-0 bg-black opacity-70 transition-opacity duration-150 group-hover:opacity-50" />
             <div className="absolute bottom-4 left-4 z-10">
-              <h3 className="text-2xl font-semibold text-white">
+              <h3 className="text-xl font-semibold text-white md:text-2xl">
                 {card.title}
               </h3>
             </div>

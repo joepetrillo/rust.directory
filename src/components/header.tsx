@@ -14,7 +14,7 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="sticky top-0 flex w-full max-w-full items-center border-b bg-background">
+    <header className="sticky top-0 z-10 flex w-full max-w-full items-center border-b bg-background">
       <div className="mx-3 flex w-full border-x md:mx-8 lg:mx-12">
         <nav className="mx-auto flex w-full items-center justify-between gap-4 px-4 py-2 md:max-w-7xl md:px-6 lg:gap-0">
           <Link
