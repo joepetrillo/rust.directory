@@ -16,25 +16,30 @@ export default function Home() {
   const cards = [
     {
       title: "Raid Calculator",
+      subtitle: "Calculate raid costs with maximum efficiency",
       href: "/calculator",
       image: "/images/walls.jpg",
     },
     {
       title: "Recoil Patterns",
+      subtitle: "Master weapon recoil patterns",
       href: "/recoil",
       image: "/images/guns.jpg",
     },
     {
-      title: "Base Designs",
-      href: "/community",
+      title: "Base Building",
+      subtitle: "Explore and share base designs",
+      href: "/building",
       image: "/images/jacky.jpg",
     },
     {
-      title: "Resources",
-      href: "/resources",
+      title: "Console Commands",
+      subtitle: "Keybinds and commands that give you an edge",
+      href: "/commands",
       image: "/images/tools.jpg",
     },
   ];
+
   const common = { width: 434, height: 222 };
 
   // Create a mapping of image paths to their srcSets
@@ -71,10 +76,13 @@ export default function Home() {
               }}
             />
             <div className="absolute inset-0 bg-black opacity-70 transition-opacity duration-150 group-hover:opacity-50" />
-            <div className="absolute bottom-4 left-4 z-10">
+            <div className="absolute right-0 bottom-0 left-0 z-10 bg-gradient-to-t from-black/80 to-transparent p-4">
               <h3 className="text-xl font-semibold text-white md:text-2xl">
                 {card.title}
               </h3>
+              {card.subtitle && (
+                <p className="mt-1 text-sm text-white/70">{card.subtitle}</p>
+              )}
             </div>
           </Link>
         ))}
