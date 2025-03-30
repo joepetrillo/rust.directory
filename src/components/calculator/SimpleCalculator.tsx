@@ -15,6 +15,7 @@ import {
   RaidData,
   ResourcesRequired,
 } from "@/types/calculator";
+import { MinusIcon, PlusIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
@@ -45,6 +46,54 @@ export default function SimpleCalculator() {
     // Clear previous calculations
     const breakdowns: BreakdownMap = {};
     const finalTotals: ResourcesRequired = {};
+
+    // Helper function to process a resource and build the crafting tree
+    const processResourceNode = (
+      resourceName: string,
+      amount: number,
+      node: CraftingNode,
+      itemTotals: ResourcesRequired,
+      finalTotals: ResourcesRequired,
+    ) => {
+      // Find the resource
+      const resourceItem = typedResources.find(
+        (r) => r.shortName === resourceName,
+      );
+      const boomItem = typedBoom.find((b) => b.shortName === resourceName);
+      const item = resourceItem || boomItem;
+
+      // If it has crafting requirements and is not a base resource, process them
+      if (item && item.craftingCost && !item.isBaseResource) {
+        Object.entries(item.craftingCost).forEach(
+          ([subResourceName, subAmount]) => {
+            const totalSubAmount = (subAmount as number) * amount;
+
+            // Create child node
+            const childNode: CraftingNode = {
+              resourceName: subResourceName,
+              amount: totalSubAmount,
+              children: [],
+            };
+
+            // Add to parent's children
+            node.children.push(childNode);
+
+            // Recursively process this child
+            processResourceNode(
+              subResourceName,
+              totalSubAmount,
+              childNode,
+              itemTotals,
+              finalTotals,
+            );
+          },
+        );
+      } else {
+        // Base resource - add to totals
+        itemTotals[resourceName] = (itemTotals[resourceName] || 0) + amount;
+        finalTotals[resourceName] = (finalTotals[resourceName] || 0) + amount;
+      }
+    };
 
     // Process each boom item separately
     Object.entries(quantities).forEach(([shortName, quantity]) => {
@@ -81,8 +130,6 @@ export default function SimpleCalculator() {
             node,
             breakdown.totalBaseCosts,
             finalTotals,
-            typedResources,
-            typedBoom,
           );
         },
       );
@@ -94,58 +141,6 @@ export default function SimpleCalculator() {
     setTotalResources(finalTotals);
   }, [quantities]);
 
-  // Helper function to process a resource and build the crafting tree
-  const processResourceNode = (
-    resourceName: string,
-    amount: number,
-    node: CraftingNode,
-    itemTotals: ResourcesRequired,
-    finalTotals: ResourcesRequired,
-    typedResources: any[],
-    typedBoom: any[],
-  ) => {
-    // Find the resource
-    const resourceItem = typedResources.find(
-      (r) => r.shortName === resourceName,
-    );
-    const boomItem = typedBoom.find((b) => b.shortName === resourceName);
-    const item = resourceItem || boomItem;
-
-    // If it has crafting requirements and is not a base resource, process them
-    if (item && item.craftingCost && !item.isBaseResource) {
-      Object.entries(item.craftingCost).forEach(
-        ([subResourceName, subAmount]) => {
-          const totalSubAmount = (subAmount as number) * amount;
-
-          // Create child node
-          const childNode: CraftingNode = {
-            resourceName: subResourceName,
-            amount: totalSubAmount,
-            children: [],
-          };
-
-          // Add to parent's children
-          node.children.push(childNode);
-
-          // Recursively process this child
-          processResourceNode(
-            subResourceName,
-            totalSubAmount,
-            childNode,
-            itemTotals,
-            finalTotals,
-            typedResources,
-            typedBoom,
-          );
-        },
-      );
-    } else {
-      // Base resource - add to totals
-      itemTotals[resourceName] = (itemTotals[resourceName] || 0) + amount;
-      finalTotals[resourceName] = (finalTotals[resourceName] || 0) + amount;
-    }
-  };
-
   useEffect(() => {
     calculateResources();
   }, [quantities, calculateResources]);
@@ -154,8 +149,34 @@ export default function SimpleCalculator() {
     const numValue = parseInt(value) || 0;
     setQuantities({
       ...quantities,
-      [shortName]: numValue >= 0 ? numValue : 0,
+      [shortName]: numValue > 9999 ? 9999 : numValue >= 0 ? numValue : 0,
     });
+  };
+
+  const incrementQuantity = (shortName: string) => {
+    const currentValue = quantities[shortName] || 0;
+    if (currentValue < 9999) {
+      setQuantities({
+        ...quantities,
+        [shortName]: currentValue + 1,
+      });
+    }
+  };
+
+  const decrementQuantity = (shortName: string) => {
+    const currentValue = quantities[shortName] || 0;
+    if (currentValue > 0) {
+      setQuantities({
+        ...quantities,
+        [shortName]: currentValue - 1,
+      });
+    }
+  };
+
+  const clearQuantity = (shortName: string) => {
+    const newQuantities = { ...quantities };
+    delete newQuantities[shortName];
+    setQuantities(newQuantities);
   };
 
   const resetCalculator = () => {
@@ -246,8 +267,18 @@ export default function SimpleCalculator() {
         {typedData.boom.map((item) => (
           <div
             key={item.shortName}
-            className="p-3 outline outline-offset-0 outline-border"
+            className="relative p-3 outline outline-offset-0 outline-border"
           >
+            {quantities[item.shortName] > 0 && (
+              <button
+                type="button"
+                onClick={() => clearQuantity(item.shortName)}
+                className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80"
+                aria-label="Clear quantity"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
             <div className="flex h-full flex-col items-center justify-between gap-3">
               <div className="relative h-12 w-12 flex-shrink-0">
                 <Image
@@ -261,17 +292,37 @@ export default function SimpleCalculator() {
               <p className="text-center text-sm font-medium">
                 {item.displayName}
               </p>
-              <Input
-                type="number"
-                min="0"
-                max="9999"
-                value={quantities[item.shortName] || ""}
-                onChange={(e) =>
-                  handleQuantityChange(item.shortName, e.target.value)
-                }
-                className="h-8 w-20 text-sm"
-                placeholder="0"
-              />
+              <div className="flex items-center space-x-0">
+                <button
+                  type="button"
+                  onClick={() => decrementQuantity(item.shortName)}
+                  className="flex h-8 w-8 items-center justify-center rounded-l-md border bg-muted hover:bg-muted/80"
+                  aria-label="Decrease quantity"
+                >
+                  <MinusIcon className="h-4 w-4" />
+                </button>
+                <div className="relative">
+                  <Input
+                    type="number"
+                    min="0"
+                    max="9999"
+                    value={quantities[item.shortName] || ""}
+                    onChange={(e) =>
+                      handleQuantityChange(item.shortName, e.target.value)
+                    }
+                    className="h-8 w-16 [appearance:textfield] rounded-none text-center text-sm [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                    placeholder="0"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => incrementQuantity(item.shortName)}
+                  className="flex h-8 w-8 items-center justify-center rounded-r-md border bg-muted hover:bg-muted/80"
+                  aria-label="Increase quantity"
+                >
+                  <PlusIcon className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </div>
         ))}
