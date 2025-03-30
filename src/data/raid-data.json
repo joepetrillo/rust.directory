@@ -102,7 +102,7 @@
     {
       "shortName": "explosive.timed",
       "id": 1248356124,
-      "displayName": "Timed Explosive Charge",
+      "displayName": "C4",
       "iconUrl": "https://cdn.rusthelp.com/images/public/explosive.timed.png",
       "craftingCost": {
         "explosives": 20,
@@ -113,7 +113,7 @@
     {
       "shortName": "ammo.rifle.explosive",
       "id": -1321651331,
-      "displayName": "Explosive 5.56 Rifle Ammo",
+      "displayName": "Explosive 5.56 Ammo",
       "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rifle.explosive.png",
       "craftingCost": {
         "gunpowder": 10,
