@@ -4027,12 +4027,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lucide-react@npm:^0.485.0":
-  version: 0.485.0
-  resolution: "lucide-react@npm:0.485.0"
+"lucide-react@npm:^0.486.0":
+  version: 0.486.0
+  resolution: "lucide-react@npm:0.486.0"
   peerDependencies:
     react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
-  checksum: 10c0/d983cc22968efb13f3d15806a30f32d7bf3a6dc2e950fbe0916fd05447fc05431fc29eebffd468767b0678a18d0f7e5a225f811e1cff5ef75607872290c32633
+  checksum: 10c0/1206165b79f243ee32473897629e6a3ec1a8993bc35470e2bde8ece7193f758f27be891f3d380afcdb3b96659677d6c0fb4414b29ee0a6817d2388ac6d58c3b0
   languageName: node
   linkType: hard
 
@@ -4829,7 +4829,7 @@ __metadata:
     eslint: "npm:^9.23.0"
     eslint-config-next: "npm:15.2.4"
     input-otp: "npm:^1.4.2"
-    lucide-react: "npm:^0.485.0"
+    lucide-react: "npm:^0.486.0"
     next: "npm:15.2.4"
     next-themes: "npm:^0.4.6"
     postcss: "npm:^8.5.3"
@@ -4843,7 +4843,7 @@ __metadata:
     react-resizable-panels: "npm:^2.1.7"
     recharts: "npm:^2.15.1"
     sonner: "npm:^2.0.2"
-    tailwind-merge: "npm:^3.0.2"
+    tailwind-merge: "npm:^3.1.0"
     tailwindcss: "npm:^4.0.17"
     tailwindcss-animate: "npm:^1.0.7"
     typescript: "npm:^5.8.2"
@@ -5247,10 +5247,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwind-merge@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "tailwind-merge@npm:3.0.2"
-  checksum: 10c0/73f528345e5130e7690c5c57701155849ae4f0834e0a4bf56bc03e25d4563d45d4905ff9c487a7dce9efdfa18689a223e78365962105ad0e2f2d1226216c66ef
+"tailwind-merge@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "tailwind-merge@npm:3.1.0"
+  checksum: 10c0/71d6dc5f8bae2f87950eefa2605a391ffef45a09759de22ba0e90976180ab3cd4fc48ed37063a617dc2ff0f48768c0006090a78bcd1f5ad0ae1c373aad16d2b6
   languageName: node
   linkType: hard
 
