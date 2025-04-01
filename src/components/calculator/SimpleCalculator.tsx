@@ -315,7 +315,7 @@ export default function SimpleCalculator() {
                   onClick={() => decrementQuantity(item.shortName)}
                   variant="secondary"
                   size="icon"
-                  className="h-8 w-8 rounded-l-md rounded-r-none"
+                  className="h-8 w-8 rounded-l-md rounded-r-none focus:z-10"
                   aria-label="Decrease quantity"
                 >
                   <MinusIcon className="h-4 w-4" />
@@ -326,7 +326,8 @@ export default function SimpleCalculator() {
                   onChange={(e) =>
                     handleQuantityChange(item.shortName, e.target.value)
                   }
-                  className="h-8 w-16 [appearance:textfield] rounded-none text-center text-sm [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  onFocus={(e) => e.target.select()}
+                  className="h-8 w-16 rounded-none text-center text-sm focus:z-10"
                   placeholder="0"
                   aria-label="Quantity"
                 />
@@ -335,7 +336,7 @@ export default function SimpleCalculator() {
                   onClick={() => incrementQuantity(item.shortName)}
                   variant="secondary"
                   size="icon"
-                  className="h-8 w-8 rounded-l-none rounded-r-md"
+                  className="h-8 w-8 rounded-l-none rounded-r-md focus:z-10"
                   aria-label="Increase quantity"
                 >
                   <PlusIcon className="h-4 w-4" />
