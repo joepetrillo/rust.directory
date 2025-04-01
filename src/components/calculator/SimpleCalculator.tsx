@@ -352,7 +352,7 @@ export default function SimpleCalculator() {
         <div className="space-y-4">
           {/* Individual cost breakdown */}
           <h3 className="text-lg font-semibold">Cost Breakdown</h3>
-          <Accordion type="multiple" className="w-full">
+          <Accordion type="single" collapsible className="w-full">
             {Object.entries(itemBreakdowns).map(
               ([itemShortName, breakdown]) => {
                 const item = getResourceItemDetails(itemShortName);
