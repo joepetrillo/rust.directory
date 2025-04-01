@@ -146,31 +146,44 @@ export default function SimpleCalculator() {
   }, [quantities, calculateResources]);
 
   const handleQuantityChange = (shortName: string, value: string) => {
-    const numValue = parseInt(value) || 0;
-    setQuantities({
-      ...quantities,
-      [shortName]: numValue > 9999 ? 9999 : numValue >= 0 ? numValue : 0,
-    });
+    // Only allow digits
+    if (!/^[0-9]*$/.test(value)) return;
+
+    // Early returns if value is already at max or min to prevent unnecessary re-renders
+    if (quantities[shortName] === 9999 && parseInt(value) >= 9999) return;
+    if (quantities[shortName] === 0 && parseInt(value) <= 0) return;
+
+    const numValue = parseInt(value);
+    const clampedValue = Math.min(numValue, 9999);
+
+    setQuantities((prev) => ({
+      ...prev,
+      [shortName]: clampedValue,
+    }));
   };
 
   const incrementQuantity = (shortName: string) => {
-    const currentValue = quantities[shortName] || 0;
-    if (currentValue < 9999) {
-      setQuantities({
-        ...quantities,
+    setQuantities((prev) => {
+      const currentValue = prev[shortName] ?? 0;
+      if (currentValue >= 9999) return prev;
+
+      return {
+        ...prev,
         [shortName]: currentValue + 1,
-      });
-    }
+      };
+    });
   };
 
   const decrementQuantity = (shortName: string) => {
-    const currentValue = quantities[shortName] || 0;
-    if (currentValue > 0) {
-      setQuantities({
-        ...quantities,
+    setQuantities((prev) => {
+      const currentValue = prev[shortName] ?? 0;
+      if (currentValue <= 0) return prev;
+
+      return {
+        ...prev,
         [shortName]: currentValue - 1,
-      });
-    }
+      };
+    });
   };
 
   const clearQuantity = (shortName: string) => {
@@ -256,6 +269,7 @@ export default function SimpleCalculator() {
 
   return (
     <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-xl font-semibold">Item Selection</h2>
         <Button variant="secondary" size="sm" onClick={resetCalculator}>
@@ -263,6 +277,7 @@ export default function SimpleCalculator() {
         </Button>
       </div>
 
+      {/* Boom selection */}
       <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8">
         {typedData.boom.map((item) => (
           <div
@@ -270,14 +285,16 @@ export default function SimpleCalculator() {
             className="relative p-3 outline outline-offset-0 outline-border"
           >
             {quantities[item.shortName] > 0 && (
-              <button
+              <Button
                 type="button"
                 onClick={() => clearQuantity(item.shortName)}
-                className="absolute top-2 right-2 flex h-6 w-6 items-center justify-center rounded-full bg-muted transition-colors hover:bg-muted/80"
+                variant="outline"
+                size="icon"
+                className="absolute top-2 right-2 h-6 w-6 rounded-full p-0"
                 aria-label="Clear quantity"
               >
                 <X className="h-4 w-4" />
-              </button>
+              </Button>
             )}
             <div className="flex h-full flex-col items-center justify-between gap-3">
               <div className="relative h-12 w-12 flex-shrink-0">
@@ -292,46 +309,48 @@ export default function SimpleCalculator() {
               <p className="text-center text-sm font-medium">
                 {item.displayName}
               </p>
-              <div className="flex items-center space-x-0">
-                <button
+              <div className="flex items-center">
+                <Button
                   type="button"
                   onClick={() => decrementQuantity(item.shortName)}
-                  className="flex h-8 w-8 items-center justify-center rounded-l-md border bg-muted hover:bg-muted/80"
+                  variant="secondary"
+                  size="icon"
+                  className="h-8 w-8 rounded-l-md rounded-r-none"
                   aria-label="Decrease quantity"
                 >
                   <MinusIcon className="h-4 w-4" />
-                </button>
-                <div className="relative">
-                  <Input
-                    type="number"
-                    min="0"
-                    max="9999"
-                    value={quantities[item.shortName] || ""}
-                    onChange={(e) =>
-                      handleQuantityChange(item.shortName, e.target.value)
-                    }
-                    className="h-8 w-16 [appearance:textfield] rounded-none text-center text-sm [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                    placeholder="0"
-                  />
-                </div>
-                <button
+                </Button>
+                <Input
+                  inputMode="numeric"
+                  value={quantities[item.shortName] || ""}
+                  onChange={(e) =>
+                    handleQuantityChange(item.shortName, e.target.value)
+                  }
+                  className="h-8 w-16 [appearance:textfield] rounded-none text-center text-sm [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+                  placeholder="0"
+                  aria-label="Quantity"
+                />
+                <Button
                   type="button"
                   onClick={() => incrementQuantity(item.shortName)}
-                  className="flex h-8 w-8 items-center justify-center rounded-r-md border bg-muted hover:bg-muted/80"
+                  variant="secondary"
+                  size="icon"
+                  className="h-8 w-8 rounded-l-none rounded-r-md"
                   aria-label="Increase quantity"
                 >
                   <PlusIcon className="h-4 w-4" />
-                </button>
+                </Button>
               </div>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Cost breakdown */}
       {anyItemSelected && Object.keys(itemBreakdowns).length > 0 && (
         <div className="space-y-4">
+          {/* Individual cost breakdown */}
           <h3 className="text-lg font-semibold">Cost Breakdown</h3>
-
           <Accordion type="multiple" className="w-full">
             {Object.entries(itemBreakdowns).map(
               ([itemShortName, breakdown]) => {
