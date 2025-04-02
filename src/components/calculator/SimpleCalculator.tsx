@@ -213,13 +213,18 @@ export default function SimpleCalculator() {
   const ResourceDisplay = ({
     resourceName,
     amount,
+    isTopLevel = false,
   }: {
     resourceName: string;
     amount: number;
+    isTopLevel?: boolean;
   }) => {
     const details = getResourceItemDetails(resourceName);
     return (
-      <div className="flex items-center gap-2">
+      <div className="relative flex items-center gap-2">
+        {!isTopLevel && (
+          <div className="absolute top-[11px] -left-[27px] h-[2px] w-5 bg-border" />
+        )}
         <div className="relative h-6 w-6 flex-shrink-0">
           <Image
             src={`https://cdn.rusthelp.com/images/public/128/${resourceName}.png`}
@@ -229,10 +234,10 @@ export default function SimpleCalculator() {
             className="object-contain"
           />
         </div>
-        <span className="text-sm font-medium">
+        <span className="text-sm font-medium whitespace-nowrap">
           {details?.displayName || resourceName}
         </span>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-sm whitespace-nowrap text-muted-foreground">
           {amount.toLocaleString()}
         </span>
       </div>
@@ -250,17 +255,20 @@ export default function SimpleCalculator() {
     const hasChildren = node.children.length > 0;
 
     return (
-      <div className={`${depth > 0 ? "ml-4" : ""} space-y-1.5`}>
+      <div className={`space-y-1.5 ${depth > 0 ? "ml-4" : ""}`}>
         <ResourceDisplay
           resourceName={node.resourceName}
           amount={node.amount}
+          isTopLevel={depth === 0}
         />
-
         {hasChildren && (
-          <div className="ml-3 space-y-1.5 border-l-2 border-dashed border-border pl-3">
-            {node.children.map((child, index) => (
-              <CraftingTreeNode key={index} node={child} depth={depth + 1} />
-            ))}
+          <div className="relative pl-6">
+            <div className="absolute top-0 bottom-[11px] left-[11px] w-[2px] bg-border" />
+            <div className="space-y-1.5">
+              {node.children.map((child, index) => (
+                <CraftingTreeNode key={index} node={child} depth={depth + 1} />
+              ))}
+            </div>
           </div>
         )}
       </div>
@@ -376,10 +384,10 @@ export default function SimpleCalculator() {
                         <Badge variant="secondary">{quantity}</Badge>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="pl-4">
+                    <AccordionContent>
                       <div className="space-y-4">
                         {/* Direct components */}
-                        <div className="rounded-md border p-3">
+                        <div className="overflow-auto rounded-md border p-3">
                           <h4 className="mb-3 text-sm font-bold italic">
                             Direct Components
                           </h4>
@@ -390,6 +398,7 @@ export default function SimpleCalculator() {
                                   key={resourceName}
                                   resourceName={resourceName}
                                   amount={amount}
+                                  isTopLevel={true}
                                 />
                               ),
                             )}
@@ -397,7 +406,7 @@ export default function SimpleCalculator() {
                         </div>
 
                         {/* Crafting tree */}
-                        <div className="rounded-md border p-3">
+                        <div className="overflow-auto rounded-md border p-3">
                           <h4 className="mb-3 text-sm font-bold italic">
                             Crafting Breakdown
                           </h4>
@@ -409,7 +418,7 @@ export default function SimpleCalculator() {
                         </div>
 
                         {/* Base resources summary for this item */}
-                        <div className="rounded-md border p-3">
+                        <div className="overflow-auto rounded-md border p-3">
                           <h4 className="mb-3 text-sm font-bold italic">
                             Base Resources Total
                           </h4>
@@ -421,6 +430,7 @@ export default function SimpleCalculator() {
                                   key={resourceName}
                                   resourceName={resourceName}
                                   amount={amount}
+                                  isTopLevel={true}
                                 />
                               ))}
                           </div>
