@@ -352,7 +352,7 @@ export default function SimpleCalculator() {
         <div className="space-y-4">
           {/* Individual cost breakdown */}
           <h3 className="text-lg font-semibold">Cost Breakdown</h3>
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible>
             {Object.entries(itemBreakdowns).map(
               ([itemShortName, breakdown]) => {
                 const item = getResourceItemDetails(itemShortName);
@@ -361,7 +361,7 @@ export default function SimpleCalculator() {
 
                 return (
                   <AccordionItem key={itemShortName} value={itemShortName}>
-                    <AccordionTrigger className="py-3">
+                    <AccordionTrigger className="items-center py-3">
                       <div className="flex items-center gap-2">
                         <div className="relative h-8 w-8 flex-shrink-0">
                           <Image
