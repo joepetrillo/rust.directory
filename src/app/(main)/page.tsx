@@ -76,7 +76,7 @@ export default function Home() {
               }}
             />
             <div className="absolute inset-0 bg-black opacity-70 transition-opacity duration-150 group-hover:opacity-50" />
-            <div className="absolute right-0 bottom-0 left-0 z-10 bg-gradient-to-t from-black/80 to-transparent p-4">
+            <div className="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-4">
               <h3 className="text-xl font-semibold text-white md:text-2xl">
                 {card.title}
               </h3>
