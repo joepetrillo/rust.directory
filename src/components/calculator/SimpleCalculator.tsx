@@ -250,14 +250,14 @@ export default function SimpleCalculator() {
     const hasChildren = node.children.length > 0;
 
     return (
-      <div className={`${depth > 0 ? "ml-6" : ""} space-y-1.5`}>
+      <div className={`${depth > 0 ? "ml-4" : ""} space-y-1.5`}>
         <ResourceDisplay
           resourceName={node.resourceName}
           amount={node.amount}
         />
 
         {hasChildren && (
-          <div className="mt-2 space-y-2 border-l-2 border-border pl-4">
+          <div className="ml-3 space-y-1.5 border-l-2 border-dashed border-border pl-3">
             {node.children.map((child, index) => (
               <CraftingTreeNode key={index} node={child} depth={depth + 1} />
             ))}
@@ -380,7 +380,7 @@ export default function SimpleCalculator() {
                       <div className="space-y-4">
                         {/* Direct components */}
                         <div className="rounded-md border p-3">
-                          <h4 className="mb-2 text-sm font-medium">
+                          <h4 className="mb-3 text-sm font-bold italic">
                             Direct Components
                           </h4>
                           <div className="space-y-1.5">
@@ -398,21 +398,19 @@ export default function SimpleCalculator() {
 
                         {/* Crafting tree */}
                         <div className="rounded-md border p-3">
-                          <h4 className="mb-3 text-sm font-medium">
+                          <h4 className="mb-3 text-sm font-bold italic">
                             Crafting Breakdown
                           </h4>
-                          <div className="space-y-4">
+                          <div className="space-y-1.5">
                             {breakdown.craftingTree.map((node, index) => (
-                              <div key={index} className="space-y-1.5">
-                                <CraftingTreeNode node={node} />
-                              </div>
+                              <CraftingTreeNode node={node} key={index} />
                             ))}
                           </div>
                         </div>
 
                         {/* Base resources summary for this item */}
-                        <div className="rounded-md border bg-muted/20 p-3">
-                          <h4 className="mb-2 text-sm font-medium">
+                        <div className="rounded-md border p-3">
+                          <h4 className="mb-3 text-sm font-bold italic">
                             Base Resources Total
                           </h4>
                           <div className="space-y-1.5">
