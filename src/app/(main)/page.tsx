@@ -17,7 +17,7 @@ export default function Home() {
     {
       title: "Raid Calculator",
       subtitle: "Calculate raid costs with maximum efficiency",
-      href: "/calculator",
+      href: "/calculator/simple",
       image: "/images/walls.jpg",
     },
     {
