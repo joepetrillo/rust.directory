@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function roundToIncrement(value: number, increment: number): number {
-  return Math.round(value / increment) * increment;
+  return Math.ceil(value / increment) * increment;
 }

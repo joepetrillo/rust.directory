@@ -32,12 +32,6 @@ const getResourceItemDetails = (shortName: string) => {
   );
 };
 
-// Helper function to get crafting increment - moved outside component since it's static
-const getCraftingIncrement = (shortName: string) => {
-  const item = getResourceItemDetails(shortName);
-  return item?.craftingIncrement ?? 1;
-};
-
 // Memoized ResourceDisplay component
 const ResourceDisplay = memo(
   ({
@@ -115,7 +109,7 @@ export default function SimpleCalculator() {
   const [itemBreakdowns, setItemBreakdowns] = useState<BreakdownMap>({});
   const [totalResources, setTotalResources] = useState<ResourcesRequired>({});
 
-  // const anyItemSelected = Object.values(quantities).some((q) => q > 0);
+  const calculationsExist = Object.values(totalResources).some((q) => q > 0);
   const typedData = raidData as unknown as RaidData;
   const typedBoom = typedData.boom;
   const typedResources = typedData.resources;
@@ -185,7 +179,6 @@ export default function SimpleCalculator() {
 
       // Initialize breakdown for this item
       const breakdown: ItemBreakdown = {
-        directCosts: {},
         totalBaseCosts: {},
         craftingTree: [],
       };
@@ -194,7 +187,6 @@ export default function SimpleCalculator() {
       Object.entries(boomItem.craftingCost).forEach(
         ([resourceName, amount]) => {
           const totalAmount = amount * quantity;
-          breakdown.directCosts[resourceName] = totalAmount;
 
           // Create first level nodes for crafting tree
           const node: CraftingNode = {
@@ -227,11 +219,10 @@ export default function SimpleCalculator() {
   }, [calculateResources]);
 
   const handleQuantityChange = useCallback(
-    (shortName: string, value: string) => {
+    (shortName: string, increment: number, value: string) => {
       // Only allow digits
       if (!/^[0-9]*$/.test(value)) return;
 
-      const increment = getCraftingIncrement(shortName);
       const numValue = parseInt(value);
       const roundedValue = roundToIncrement(numValue, increment);
       const clampedValue = Math.min(roundedValue, 9999);
@@ -244,32 +235,36 @@ export default function SimpleCalculator() {
     [],
   );
 
-  const incrementQuantity = useCallback((shortName: string) => {
-    setQuantities((prev) => {
-      const currentValue = prev[shortName] ?? 0;
-      const increment = getCraftingIncrement(shortName);
-      const newValue = currentValue + increment;
-      if (newValue > 9999) return prev;
+  const incrementQuantity = useCallback(
+    (shortName: string, increment: number) => {
+      setQuantities((prev) => {
+        const currentValue = prev[shortName] ?? 0;
+        const newValue = currentValue + increment;
+        if (newValue > 9999) return prev;
 
-      return {
-        ...prev,
-        [shortName]: newValue,
-      };
-    });
-  }, []);
+        return {
+          ...prev,
+          [shortName]: newValue,
+        };
+      });
+    },
+    [],
+  );
 
-  const decrementQuantity = useCallback((shortName: string) => {
-    setQuantities((prev) => {
-      const currentValue = prev[shortName] ?? 0;
-      const increment = getCraftingIncrement(shortName);
-      const newValue = currentValue - increment;
-      if (newValue < 0) return prev;
-      return {
-        ...prev,
-        [shortName]: newValue,
-      };
-    });
-  }, []);
+  const decrementQuantity = useCallback(
+    (shortName: string, increment: number) => {
+      setQuantities((prev) => {
+        const currentValue = prev[shortName] ?? 0;
+        const newValue = currentValue - increment;
+        if (newValue < 0) return prev;
+        return {
+          ...prev,
+          [shortName]: newValue,
+        };
+      });
+    },
+    [],
+  );
 
   const clearQuantity = useCallback((shortName: string) => {
     setQuantities((prev) => {
@@ -330,7 +325,12 @@ export default function SimpleCalculator() {
               <div className="flex items-center">
                 <Button
                   type="button"
-                  onClick={() => decrementQuantity(item.shortName)}
+                  onClick={() =>
+                    decrementQuantity(
+                      item.shortName,
+                      item.craftingIncrement ?? 1,
+                    )
+                  }
                   variant="secondary"
                   size="icon"
                   className="h-8 w-8 rounded-l-md rounded-r-none focus:z-10"
@@ -342,7 +342,11 @@ export default function SimpleCalculator() {
                   inputMode="numeric"
                   value={quantities[item.shortName] || ""}
                   onChange={(e) =>
-                    handleQuantityChange(item.shortName, e.target.value)
+                    handleQuantityChange(
+                      item.shortName,
+                      item.craftingIncrement ?? 1,
+                      e.target.value,
+                    )
                   }
                   onFocus={(e) => e.target.select()}
                   className="h-8 w-16 rounded-none text-center text-sm focus:z-10"
@@ -351,7 +355,12 @@ export default function SimpleCalculator() {
                 />
                 <Button
                   type="button"
-                  onClick={() => incrementQuantity(item.shortName)}
+                  onClick={() =>
+                    incrementQuantity(
+                      item.shortName,
+                      item.craftingIncrement ?? 1,
+                    )
+                  }
                   variant="secondary"
                   size="icon"
                   className="h-8 w-8 rounded-l-none rounded-r-md focus:z-10"
@@ -366,13 +375,18 @@ export default function SimpleCalculator() {
       </div>
 
       {/* Cost breakdown */}
-      {Object.keys(itemBreakdowns).length > 0 && (
+      {calculationsExist ? (
         <div className="space-y-4">
           {/* Individual cost breakdown */}
           <h3 className="text-lg font-semibold">Cost Breakdown</h3>
           <Accordion type="single" collapsible>
-            {Object.entries(itemBreakdowns).map(
-              ([itemShortName, breakdown]) => {
+            {Object.entries(itemBreakdowns)
+              .sort(
+                (a, b) =>
+                  (b[1].totalBaseCosts.sulfur ?? 0) -
+                  (a[1].totalBaseCosts.sulfur ?? 0),
+              )
+              .map(([itemShortName, breakdown]) => {
                 const item = getResourceItemDetails(itemShortName);
                 const quantity = quantities[itemShortName];
                 if (!item || !quantity) return null;
@@ -396,25 +410,6 @@ export default function SimpleCalculator() {
                     </AccordionTrigger>
                     <AccordionContent>
                       <div className="space-y-4">
-                        {/* Direct components */}
-                        <div className="overflow-auto rounded-md border p-3">
-                          <h4 className="mb-3 text-sm font-medium italic">
-                            Direct Components
-                          </h4>
-                          <div className="space-y-1.5">
-                            {Object.entries(breakdown.directCosts)
-                              .sort((a, b) => b[1] - a[1])
-                              .map(([resourceName, amount]) => (
-                                <ResourceDisplay
-                                  key={resourceName}
-                                  resourceName={resourceName}
-                                  amount={amount}
-                                  isTopLevel={true}
-                                />
-                              ))}
-                          </div>
-                        </div>
-
                         {/* Crafting tree */}
                         <div className="overflow-auto rounded-md border p-3">
                           <h4 className="mb-3 text-sm font-medium italic">
@@ -451,8 +446,7 @@ export default function SimpleCalculator() {
                     </AccordionContent>
                   </AccordionItem>
                 );
-              },
-            )}
+              })}
           </Accordion>
 
           {/* Total resources section */}
@@ -495,6 +489,15 @@ export default function SimpleCalculator() {
                 })}
             </div>
           </div>
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center border p-8 text-center text-balance">
+          <p className="text-lg font-medium text-muted-foreground">
+            Select some items to get started
+          </p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            The cost breakdown will appear here
+          </p>
         </div>
       )}
     </div>
