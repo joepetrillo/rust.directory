@@ -23,3 +23,17 @@ export interface RaidData {
 
 export type BoomQuantities = Record<string, number>;
 export type ResourcesRequired = Record<string, number>;
+
+export interface ItemBreakdown {
+  directCosts: ResourcesRequired;
+  totalBaseCosts: ResourcesRequired;
+  craftingTree: CraftingNode[];
+}
+
+export interface CraftingNode {
+  resourceName: string;
+  amount: number;
+  children: CraftingNode[];
+}
+
+export type BreakdownMap = Record<string, ItemBreakdown>;

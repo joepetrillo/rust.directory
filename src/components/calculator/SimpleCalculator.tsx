@@ -12,6 +12,9 @@ import { Input } from "@/components/ui/input";
 import raidData from "@/data/raid-data.json";
 import {
   BoomQuantities,
+  BreakdownMap,
+  CraftingNode,
+  ItemBreakdown,
   RaidData,
   ResourcesRequired,
 } from "@/types/calculator";
@@ -19,24 +22,13 @@ import { MinusIcon, PlusIcon, X } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 
-interface ItemBreakdown {
-  directCosts: ResourcesRequired;
-  totalBaseCosts: ResourcesRequired;
-  craftingTree: CraftingNode[];
-}
-
-interface CraftingNode {
-  resourceName: string;
-  amount: number;
-  children: CraftingNode[];
-}
-
-type BreakdownMap = Record<string, ItemBreakdown>;
-
 export default function SimpleCalculator() {
   const [quantities, setQuantities] = useState<BoomQuantities>({});
   const [itemBreakdowns, setItemBreakdowns] = useState<BreakdownMap>({});
   const [totalResources, setTotalResources] = useState<ResourcesRequired>({});
+
+  const anyItemSelected = Object.values(quantities).some((q) => q > 0);
+  const typedData = raidData as unknown as RaidData;
 
   const calculateResources = useCallback(() => {
     const typedData = raidData as unknown as RaidData;
@@ -205,9 +197,6 @@ export default function SimpleCalculator() {
       typedData.boom.find((b) => b.shortName === shortName)
     );
   };
-
-  const anyItemSelected = Object.values(quantities).some((q) => q > 0);
-  const typedData = raidData as unknown as RaidData;
 
   // Helper to render resource with image and count
   const ResourceDisplay = ({
