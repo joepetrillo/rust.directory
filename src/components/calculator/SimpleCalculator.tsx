@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import raidData from "@/data/raid-data.json";
+import { roundToIncrement } from "@/lib/utils";
 import {
   BoomQuantities,
   BreakdownMap,
@@ -29,6 +30,12 @@ const getResourceItemDetails = (shortName: string) => {
     typedData.resources.find((r) => r.shortName === shortName) ||
     typedData.boom.find((b) => b.shortName === shortName)
   );
+};
+
+// Helper function to get crafting increment - moved outside component since it's static
+const getCraftingIncrement = (shortName: string) => {
+  const item = getResourceItemDetails(shortName);
+  return item?.craftingIncrement ?? 1;
 };
 
 // Memoized ResourceDisplay component
@@ -224,29 +231,29 @@ export default function SimpleCalculator() {
       // Only allow digits
       if (!/^[0-9]*$/.test(value)) return;
 
-      // Early returns if value is already at max or min to prevent unnecessary re-renders
-      if (quantities[shortName] === 9999 && parseInt(value) >= 9999) return;
-      if (quantities[shortName] === 0 && parseInt(value) <= 0) return;
-
+      const increment = getCraftingIncrement(shortName);
       const numValue = parseInt(value);
-      const clampedValue = Math.min(numValue, 9999);
+      const roundedValue = roundToIncrement(numValue, increment);
+      const clampedValue = Math.min(roundedValue, 9999);
 
       setQuantities((prev) => ({
         ...prev,
         [shortName]: clampedValue,
       }));
     },
-    [quantities],
+    [],
   );
 
   const incrementQuantity = useCallback((shortName: string) => {
     setQuantities((prev) => {
       const currentValue = prev[shortName] ?? 0;
-      if (currentValue >= 9999) return prev;
+      const increment = getCraftingIncrement(shortName);
+      const newValue = currentValue + increment;
+      if (newValue > 9999) return prev;
 
       return {
         ...prev,
-        [shortName]: currentValue + 1,
+        [shortName]: newValue,
       };
     });
   }, []);
@@ -254,10 +261,12 @@ export default function SimpleCalculator() {
   const decrementQuantity = useCallback((shortName: string) => {
     setQuantities((prev) => {
       const currentValue = prev[shortName] ?? 0;
-      if (currentValue <= 0) return prev;
+      const increment = getCraftingIncrement(shortName);
+      const newValue = currentValue - increment;
+      if (newValue < 0) return prev;
       return {
         ...prev,
-        [shortName]: currentValue - 1,
+        [shortName]: newValue,
       };
     });
   }, []);

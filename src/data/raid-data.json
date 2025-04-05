@@ -22,7 +22,8 @@
       "craftingCost": {
         "charcoal": 3,
         "sulfur": 2
-      }
+      },
+      "craftingIncrement": 10
     },
     {
       "shortName": "charcoal",
@@ -119,7 +120,8 @@
         "gunpowder": 10,
         "metal.fragments": 5,
         "sulfur": 5
-      }
+      },
+      "craftingIncrement": 3
     },
     {
       "shortName": "explosive.satchel",

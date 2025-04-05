@@ -5,6 +5,7 @@ export interface ResourceItem {
   iconUrl: string;
   isBaseResource: boolean;
   craftingCost?: Record<string, number>;
+  craftingIncrement?: number;
 }
 
 export interface BoomItem {
@@ -12,8 +13,9 @@ export interface BoomItem {
   id: number;
   displayName: string;
   iconUrl: string;
-  craftingCost: Record<string, number>;
   isBaseResource?: boolean;
+  craftingCost: Record<string, number>;
+  craftingIncrement?: number;
 }
 
 export interface RaidData {
