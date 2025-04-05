@@ -20,27 +20,102 @@ import {
 } from "@/types/calculator";
 import { MinusIcon, PlusIcon, X } from "lucide-react";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+
+// Helper function to get resource details - moved outside component since it's static
+const getResourceItemDetails = (shortName: string) => {
+  const typedData = raidData as unknown as RaidData;
+  return (
+    typedData.resources.find((r) => r.shortName === shortName) ||
+    typedData.boom.find((b) => b.shortName === shortName)
+  );
+};
+
+// Memoized ResourceDisplay component
+const ResourceDisplay = memo(
+  ({
+    resourceName,
+    amount,
+    isTopLevel = false,
+  }: {
+    resourceName: string;
+    amount: number;
+    isTopLevel?: boolean;
+  }) => {
+    const details = getResourceItemDetails(resourceName);
+    return (
+      <div className="relative flex items-center gap-2">
+        {!isTopLevel && (
+          <div className="absolute top-[11px] -left-[27px] h-[2px] w-5 bg-border" />
+        )}
+        <div className="relative h-6 w-6 flex-shrink-0">
+          <Image
+            src={`https://cdn.rusthelp.com/images/public/128/${resourceName}.png`}
+            alt={details?.displayName || resourceName}
+            width={24}
+            height={24}
+            className="object-contain"
+          />
+        </div>
+        <span className="text-sm font-medium whitespace-nowrap">
+          {details?.displayName || resourceName}
+        </span>
+        <span className="text-sm whitespace-nowrap text-muted-foreground">
+          {amount.toLocaleString()}
+        </span>
+      </div>
+    );
+  },
+);
+ResourceDisplay.displayName = "ResourceDisplay";
+
+// Memoized CraftingTreeNode component
+const CraftingTreeNode = memo(
+  ({ node, depth = 0 }: { node: CraftingNode; depth?: number }) => {
+    const hasChildren = node.children.length > 0;
+
+    return (
+      <div className={`space-y-1.5 ${depth > 0 ? "ml-4" : ""}`}>
+        <ResourceDisplay
+          resourceName={node.resourceName}
+          amount={node.amount}
+          isTopLevel={depth === 0}
+        />
+        {hasChildren && (
+          <div className="relative pl-6">
+            <div className="absolute top-0 bottom-[11px] left-[11px] w-[2px] bg-border" />
+            <div className="space-y-1.5">
+              {node.children
+                .sort((a, b) => b.amount - a.amount)
+                .map((child, index) => (
+                  <CraftingTreeNode
+                    key={index}
+                    node={child}
+                    depth={depth + 1}
+                  />
+                ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  },
+);
+CraftingTreeNode.displayName = "CraftingTreeNode";
 
 export default function SimpleCalculator() {
   const [quantities, setQuantities] = useState<BoomQuantities>({});
   const [itemBreakdowns, setItemBreakdowns] = useState<BreakdownMap>({});
   const [totalResources, setTotalResources] = useState<ResourcesRequired>({});
 
-  const anyItemSelected = Object.values(quantities).some((q) => q > 0);
+  // const anyItemSelected = Object.values(quantities).some((q) => q > 0);
   const typedData = raidData as unknown as RaidData;
+  const typedBoom = typedData.boom;
+  const typedResources = typedData.resources;
 
-  const calculateResources = useCallback(() => {
-    const typedData = raidData as unknown as RaidData;
-    const typedBoom = typedData.boom;
-    const typedResources = typedData.resources;
-
-    // Clear previous calculations
-    const breakdowns: BreakdownMap = {};
-    const finalTotals: ResourcesRequired = {};
-
-    // Helper function to process a resource and build the crafting tree
-    const processResourceNode = (
+  // Helper function to process a resource and build the crafting tree
+  const processResourceNode = useCallback(
+    (
       resourceName: string,
       amount: number,
       node: CraftingNode,
@@ -58,7 +133,7 @@ export default function SimpleCalculator() {
       if (item && item.craftingCost && !item.isBaseResource) {
         Object.entries(item.craftingCost).forEach(
           ([subResourceName, subAmount]) => {
-            const totalSubAmount = (subAmount as number) * amount;
+            const totalSubAmount = subAmount * amount;
 
             // Create child node
             const childNode: CraftingNode = {
@@ -85,7 +160,14 @@ export default function SimpleCalculator() {
         itemTotals[resourceName] = (itemTotals[resourceName] || 0) + amount;
         finalTotals[resourceName] = (finalTotals[resourceName] || 0) + amount;
       }
-    };
+    },
+    [typedResources, typedBoom],
+  );
+
+  const calculateResources = useCallback(() => {
+    // Clear previous calculations
+    const breakdowns: BreakdownMap = {};
+    const finalTotals: ResourcesRequired = {};
 
     // Process each boom item separately
     Object.entries(quantities).forEach(([shortName, quantity]) => {
@@ -131,30 +213,33 @@ export default function SimpleCalculator() {
 
     setItemBreakdowns(breakdowns);
     setTotalResources(finalTotals);
-  }, [quantities]);
+  }, [quantities, typedBoom, processResourceNode]);
 
   useEffect(() => {
     calculateResources();
-  }, [quantities, calculateResources]);
+  }, [calculateResources]);
 
-  const handleQuantityChange = (shortName: string, value: string) => {
-    // Only allow digits
-    if (!/^[0-9]*$/.test(value)) return;
+  const handleQuantityChange = useCallback(
+    (shortName: string, value: string) => {
+      // Only allow digits
+      if (!/^[0-9]*$/.test(value)) return;
 
-    // Early returns if value is already at max or min to prevent unnecessary re-renders
-    if (quantities[shortName] === 9999 && parseInt(value) >= 9999) return;
-    if (quantities[shortName] === 0 && parseInt(value) <= 0) return;
+      // Early returns if value is already at max or min to prevent unnecessary re-renders
+      if (quantities[shortName] === 9999 && parseInt(value) >= 9999) return;
+      if (quantities[shortName] === 0 && parseInt(value) <= 0) return;
 
-    const numValue = parseInt(value);
-    const clampedValue = Math.min(numValue, 9999);
+      const numValue = parseInt(value);
+      const clampedValue = Math.min(numValue, 9999);
 
-    setQuantities((prev) => ({
-      ...prev,
-      [shortName]: clampedValue,
-    }));
-  };
+      setQuantities((prev) => ({
+        ...prev,
+        [shortName]: clampedValue,
+      }));
+    },
+    [quantities],
+  );
 
-  const incrementQuantity = (shortName: string) => {
+  const incrementQuantity = useCallback((shortName: string) => {
     setQuantities((prev) => {
       const currentValue = prev[shortName] ?? 0;
       if (currentValue >= 9999) return prev;
@@ -164,105 +249,32 @@ export default function SimpleCalculator() {
         [shortName]: currentValue + 1,
       };
     });
-  };
+  }, []);
 
-  const decrementQuantity = (shortName: string) => {
+  const decrementQuantity = useCallback((shortName: string) => {
     setQuantities((prev) => {
       const currentValue = prev[shortName] ?? 0;
       if (currentValue <= 0) return prev;
-
       return {
         ...prev,
         [shortName]: currentValue - 1,
       };
     });
-  };
+  }, []);
 
-  const clearQuantity = (shortName: string) => {
-    const newQuantities = { ...quantities };
-    delete newQuantities[shortName];
-    setQuantities(newQuantities);
-  };
+  const clearQuantity = useCallback((shortName: string) => {
+    setQuantities((prev) => {
+      const newQuantities = { ...prev };
+      delete newQuantities[shortName];
+      return newQuantities;
+    });
+  }, []);
 
-  const resetCalculator = () => {
+  const resetCalculator = useCallback(() => {
     setQuantities({});
     setItemBreakdowns({});
     setTotalResources({});
-  };
-
-  const getResourceItemDetails = (shortName: string) => {
-    const typedData = raidData as unknown as RaidData;
-    return (
-      typedData.resources.find((r) => r.shortName === shortName) ||
-      typedData.boom.find((b) => b.shortName === shortName)
-    );
-  };
-
-  // Helper to render resource with image and count
-  const ResourceDisplay = ({
-    resourceName,
-    amount,
-    isTopLevel = false,
-  }: {
-    resourceName: string;
-    amount: number;
-    isTopLevel?: boolean;
-  }) => {
-    const details = getResourceItemDetails(resourceName);
-    return (
-      <div className="relative flex items-center gap-2">
-        {!isTopLevel && (
-          <div className="absolute top-[11px] -left-[27px] h-[2px] w-5 bg-border" />
-        )}
-        <div className="relative h-6 w-6 flex-shrink-0">
-          <Image
-            src={`https://cdn.rusthelp.com/images/public/128/${resourceName}.png`}
-            alt={details?.displayName || resourceName}
-            width={24}
-            height={24}
-            className="object-contain"
-          />
-        </div>
-        <span className="text-sm font-medium whitespace-nowrap">
-          {details?.displayName || resourceName}
-        </span>
-        <span className="text-sm whitespace-nowrap text-muted-foreground">
-          {amount.toLocaleString()}
-        </span>
-      </div>
-    );
-  };
-
-  // Recursive component to render the crafting tree
-  const CraftingTreeNode = ({
-    node,
-    depth = 0,
-  }: {
-    node: CraftingNode;
-    depth?: number;
-  }) => {
-    const hasChildren = node.children.length > 0;
-
-    return (
-      <div className={`space-y-1.5 ${depth > 0 ? "ml-4" : ""}`}>
-        <ResourceDisplay
-          resourceName={node.resourceName}
-          amount={node.amount}
-          isTopLevel={depth === 0}
-        />
-        {hasChildren && (
-          <div className="relative pl-6">
-            <div className="absolute top-0 bottom-[11px] left-[11px] w-[2px] bg-border" />
-            <div className="space-y-1.5">
-              {node.children.map((child, index) => (
-                <CraftingTreeNode key={index} node={child} depth={depth + 1} />
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -345,7 +357,7 @@ export default function SimpleCalculator() {
       </div>
 
       {/* Cost breakdown */}
-      {anyItemSelected && Object.keys(itemBreakdowns).length > 0 && (
+      {Object.keys(itemBreakdowns).length > 0 && (
         <div className="space-y-4">
           {/* Individual cost breakdown */}
           <h3 className="text-lg font-semibold">Cost Breakdown</h3>
@@ -377,38 +389,40 @@ export default function SimpleCalculator() {
                       <div className="space-y-4">
                         {/* Direct components */}
                         <div className="overflow-auto rounded-md border p-3">
-                          <h4 className="mb-3 text-sm font-bold italic">
+                          <h4 className="mb-3 text-sm font-medium italic">
                             Direct Components
                           </h4>
                           <div className="space-y-1.5">
-                            {Object.entries(breakdown.directCosts).map(
-                              ([resourceName, amount]) => (
+                            {Object.entries(breakdown.directCosts)
+                              .sort((a, b) => b[1] - a[1])
+                              .map(([resourceName, amount]) => (
                                 <ResourceDisplay
                                   key={resourceName}
                                   resourceName={resourceName}
                                   amount={amount}
                                   isTopLevel={true}
                                 />
-                              ),
-                            )}
+                              ))}
                           </div>
                         </div>
 
                         {/* Crafting tree */}
                         <div className="overflow-auto rounded-md border p-3">
-                          <h4 className="mb-3 text-sm font-bold italic">
-                            Crafting Breakdown
+                          <h4 className="mb-3 text-sm font-medium italic">
+                            Crafting Requirements
                           </h4>
                           <div className="space-y-1.5">
-                            {breakdown.craftingTree.map((node, index) => (
-                              <CraftingTreeNode node={node} key={index} />
-                            ))}
+                            {breakdown.craftingTree
+                              .sort((a, b) => b.amount - a.amount)
+                              .map((node, index) => (
+                                <CraftingTreeNode key={index} node={node} />
+                              ))}
                           </div>
                         </div>
 
                         {/* Base resources summary for this item */}
                         <div className="overflow-auto rounded-md border p-3">
-                          <h4 className="mb-3 text-sm font-bold italic">
+                          <h4 className="mb-3 text-sm font-medium italic">
                             Base Resources Total
                           </h4>
                           <div className="space-y-1.5">
