@@ -1,28 +1,14 @@
 // Base interface for all items
-export interface BaseItem {
+export interface Item {
   shortName: string;
   id: number;
   displayName: string;
   iconUrl: string;
-  isBaseResource: boolean;
-  craftingIncrement?: number;
-}
-
-export interface ResourceItem extends BaseItem {
+  isBaseResource?: boolean;
   craftingCost?: Record<string, number>;
+  craftingIncrement?: number;
+  selectable?: boolean;
 }
-
-export interface BoomItem extends BaseItem {
-  craftingCost: Record<string, number>;
-}
-
-export interface RaidData {
-  resources: ResourceItem[];
-  boom: BoomItem[];
-}
-
-export type BoomQuantities = Record<string, number>;
-export type ResourcesRequired = Record<string, number>;
 
 export interface ItemBreakdown {
   totalBaseCosts: ResourcesRequired;
@@ -35,4 +21,6 @@ export interface CraftingNode {
   children: CraftingNode[];
 }
 
+export type Quantities = Record<string, number>;
+export type ResourcesRequired = Record<string, number>;
 export type BreakdownMap = Record<string, ItemBreakdown>;

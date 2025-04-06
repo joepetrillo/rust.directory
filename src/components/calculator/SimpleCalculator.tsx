@@ -12,24 +12,22 @@ import { Input } from "@/components/ui/input";
 import raidData from "@/data/raid-data.json";
 import { roundToIncrement } from "@/lib/utils";
 import {
-  BoomQuantities,
   BreakdownMap,
   CraftingNode,
+  Item,
   ItemBreakdown,
-  RaidData,
+  Quantities,
   ResourcesRequired,
 } from "@/types/calculator";
 import { MinusIcon, PlusIcon, X } from "lucide-react";
 import Image from "next/image";
 import { memo, useCallback, useEffect, useState } from "react";
 
-// Helper function to get resource details - moved outside component since it's static
-const getResourceItemDetails = (shortName: string) => {
-  const typedData = raidData as unknown as RaidData;
-  return (
-    typedData.resources.find((r) => r.shortName === shortName) ||
-    typedData.boom.find((b) => b.shortName === shortName)
-  );
+const typedData = raidData as unknown as Item[];
+const selectableItems = typedData.filter((i) => i.selectable);
+
+const getItemDetails = (shortName: string) => {
+  return typedData.find((i) => i.shortName === shortName);
 };
 
 // Memoized ResourceDisplay component
@@ -43,7 +41,7 @@ const ResourceDisplay = memo(
     amount: number;
     isTopLevel?: boolean;
   }) => {
-    const details = getResourceItemDetails(resourceName);
+    const details = getItemDetails(resourceName);
     return (
       <div className="relative flex items-center gap-2">
         {!isTopLevel && (
@@ -105,14 +103,11 @@ const CraftingTreeNode = memo(
 CraftingTreeNode.displayName = "CraftingTreeNode";
 
 export default function SimpleCalculator() {
-  const [quantities, setQuantities] = useState<BoomQuantities>({});
+  const [quantities, setQuantities] = useState<Quantities>({});
   const [itemBreakdowns, setItemBreakdowns] = useState<BreakdownMap>({});
   const [totalResources, setTotalResources] = useState<ResourcesRequired>({});
 
   const calculationsExist = Object.values(totalResources).some((q) => q > 0);
-  const typedData = raidData as unknown as RaidData;
-  const typedBoom = typedData.boom;
-  const typedResources = typedData.resources;
 
   // Helper function to process a resource and build the crafting tree
   const processResourceNode = useCallback(
@@ -123,12 +118,7 @@ export default function SimpleCalculator() {
       itemTotals: ResourcesRequired,
       finalTotals: ResourcesRequired,
     ) => {
-      // Find the resource
-      const resourceItem = typedResources.find(
-        (r) => r.shortName === resourceName,
-      );
-      const boomItem = typedBoom.find((b) => b.shortName === resourceName);
-      const item = resourceItem || boomItem;
+      const item = getItemDetails(resourceName);
 
       // If it has crafting requirements and is not a base resource, process them
       if (item && item.craftingCost && !item.isBaseResource) {
@@ -162,7 +152,7 @@ export default function SimpleCalculator() {
         finalTotals[resourceName] = (finalTotals[resourceName] || 0) + amount;
       }
     },
-    [typedResources, typedBoom],
+    [],
   );
 
   const calculateResources = useCallback(() => {
@@ -174,8 +164,8 @@ export default function SimpleCalculator() {
     Object.entries(quantities).forEach(([shortName, quantity]) => {
       if (quantity <= 0) return;
 
-      const boomItem = typedBoom.find((item) => item.shortName === shortName);
-      if (!boomItem) return;
+      const item = getItemDetails(shortName);
+      if (!item) return;
 
       // Initialize breakdown for this item
       const breakdown: ItemBreakdown = {
@@ -184,7 +174,7 @@ export default function SimpleCalculator() {
       };
 
       // Add direct crafting costs
-      Object.entries(boomItem.craftingCost).forEach(
+      Object.entries(item.craftingCost ?? {}).forEach(
         ([resourceName, amount]) => {
           const totalAmount = amount * quantity;
 
@@ -212,7 +202,7 @@ export default function SimpleCalculator() {
 
     setItemBreakdowns(breakdowns);
     setTotalResources(finalTotals);
-  }, [quantities, typedBoom, processResourceNode]);
+  }, [quantities, processResourceNode]);
 
   useEffect(() => {
     calculateResources();
@@ -292,7 +282,7 @@ export default function SimpleCalculator() {
 
       {/* Boom selection */}
       <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8">
-        {typedData.boom.map((item) => (
+        {selectableItems.map((item) => (
           <div
             key={item.shortName}
             className="relative p-3 outline outline-offset-0 outline-border"
@@ -387,7 +377,7 @@ export default function SimpleCalculator() {
                   (a[1].totalBaseCosts.sulfur ?? 0),
               )
               .map(([itemShortName, breakdown]) => {
-                const item = getResourceItemDetails(itemShortName);
+                const item = getItemDetails(itemShortName);
                 const quantity = quantities[itemShortName];
                 if (!item || !quantity) return null;
 
@@ -461,7 +451,7 @@ export default function SimpleCalculator() {
               {Object.entries(totalResources)
                 .sort((a, b) => b[1] - a[1]) // Sort by amount desc
                 .map(([resourceName, amount]) => {
-                  const resourceDetails = getResourceItemDetails(resourceName);
+                  const itemDetails = getItemDetails(resourceName);
                   return (
                     <div
                       key={resourceName}
@@ -470,7 +460,7 @@ export default function SimpleCalculator() {
                       <div className="relative h-10 w-10 flex-shrink-0">
                         <Image
                           src={`https://cdn.rusthelp.com/images/public/128/${resourceName}.png`}
-                          alt={resourceDetails?.displayName || resourceName}
+                          alt={itemDetails?.displayName || resourceName}
                           width={40}
                           height={40}
                           className="object-contain"
@@ -478,7 +468,7 @@ export default function SimpleCalculator() {
                       </div>
                       <div>
                         <p className="text-sm font-medium">
-                          {resourceDetails?.displayName || resourceName}
+                          {itemDetails?.displayName || resourceName}
                         </p>
                         <p className="text-sm text-muted-foreground">
                           {amount.toLocaleString()}

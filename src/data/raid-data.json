@@ -1,190 +1,194 @@
-{
-  "resources": [
-    {
-      "shortName": "explosives",
-      "id": -592016202,
-      "displayName": "Explosives",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/explosives.png",
-      "isBaseResource": false,
-      "craftingCost": {
-        "gunpowder": 50,
-        "lowgradefuel": 3,
-        "sulfur": 10,
-        "metal.fragments": 10
-      }
-    },
-    {
-      "shortName": "gunpowder",
-      "id": -265876753,
-      "displayName": "Gun Powder",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/gunpowder.png",
-      "isBaseResource": false,
-      "craftingCost": {
-        "charcoal": 3,
-        "sulfur": 2
-      },
-      "craftingIncrement": 10
-    },
-    {
-      "shortName": "charcoal",
-      "id": -1938052175,
-      "displayName": "Charcoal",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/charcoal.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "sulfur",
-      "id": -1581843485,
-      "displayName": "Sulfur",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/sulfur.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "metal.fragments",
-      "id": 69511070,
-      "displayName": "Metal Fragments",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/metal.fragments.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "lowgradefuel",
-      "id": -946369541,
-      "displayName": "Low Grade Fuel",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/lowgradefuel.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "cloth",
-      "id": -858312878,
-      "displayName": "Cloth",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/cloth.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "stones",
-      "id": -2099697608,
-      "displayName": "Stones",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/stones.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "metalpipe",
-      "id": 95950017,
-      "displayName": "Metal Pipe",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/metalpipe.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "techparts",
-      "id": 73681876,
-      "displayName": "Tech Trash",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/techparts.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "rope",
-      "id": 1414245522,
-      "displayName": "Rope",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/rope.png",
-      "isBaseResource": true
-    },
-    {
-      "shortName": "stash.small",
-      "id": -369760990,
-      "displayName": "Small Stash",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/stash.small.png",
-      "isBaseResource": false,
-      "craftingCost": {
-        "cloth": 10
-      }
+[
+  {
+    "shortName": "explosives",
+    "id": -592016202,
+    "displayName": "Explosives",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/explosives.png",
+    "isBaseResource": false,
+    "craftingCost": {
+      "gunpowder": 50,
+      "lowgradefuel": 3,
+      "sulfur": 10,
+      "metal.fragments": 10
     }
-  ],
-  "boom": [
-    {
-      "shortName": "explosive.timed",
-      "id": 1248356124,
-      "displayName": "C4",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/explosive.timed.png",
-      "craftingCost": {
-        "explosives": 20,
-        "cloth": 5,
-        "techparts": 2
-      }
+  },
+  {
+    "shortName": "gunpowder",
+    "id": -265876753,
+    "displayName": "Gun Powder",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/gunpowder.png",
+    "isBaseResource": false,
+    "craftingCost": {
+      "charcoal": 3,
+      "sulfur": 2
     },
-    {
-      "shortName": "ammo.rifle.explosive",
-      "id": -1321651331,
-      "displayName": "Explosive 5.56 Ammo",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rifle.explosive.png",
-      "craftingCost": {
-        "gunpowder": 10,
-        "metal.fragments": 5,
-        "sulfur": 5
-      },
-      "craftingIncrement": 3
-    },
-    {
-      "shortName": "explosive.satchel",
-      "id": -1878475007,
-      "displayName": "Satchel Charge",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/explosive.satchel.png",
-      "craftingCost": {
-        "grenade.beancan": 4,
-        "stash.small": 1,
-        "rope": 1
-      }
-    },
-    {
-      "shortName": "ammo.rocket.basic",
-      "id": -742865266,
-      "displayName": "Rocket",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.basic.png",
-      "craftingCost": {
-        "metalpipe": 2,
-        "gunpowder": 150,
-        "explosives": 10
-      }
-    },
-    {
-      "shortName": "ammo.rocket.hv",
-      "id": -1841918730,
-      "displayName": "High Velocity Rocket",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.hv.png",
-      "craftingCost": {
-        "metalpipe": 1,
-        "gunpowder": 100
-      }
-    },
-    {
-      "shortName": "ammo.rocket.fire",
-      "id": 1638322904,
-      "displayName": "Incendiary Rocket",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.fire.png",
-      "craftingCost": {
-        "metalpipe": 2,
-        "gunpowder": 150,
-        "lowgradefuel": 75
-      }
-    },
-    {
-      "shortName": "grenade.beancan",
-      "id": 1840822026,
-      "displayName": "Beancan Grenade",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/grenade.beancan.png",
-      "craftingCost": {
-        "gunpowder": 60,
-        "metal.fragments": 20
-      }
-    },
-    {
-      "shortName": "grenade.f1",
-      "id": 143803535,
-      "displayName": "F1 Grenade",
-      "iconUrl": "https://cdn.rusthelp.com/images/public/grenade.f1.png",
-      "craftingCost": {
-        "gunpowder": 30,
-        "metal.fragments": 25
-      }
+    "craftingIncrement": 10
+  },
+  {
+    "shortName": "charcoal",
+    "id": -1938052175,
+    "displayName": "Charcoal",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/charcoal.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "sulfur",
+    "id": -1581843485,
+    "displayName": "Sulfur",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/sulfur.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "metal.fragments",
+    "id": 69511070,
+    "displayName": "Metal Fragments",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/metal.fragments.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "lowgradefuel",
+    "id": -946369541,
+    "displayName": "Low Grade Fuel",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/lowgradefuel.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "cloth",
+    "id": -858312878,
+    "displayName": "Cloth",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/cloth.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "stones",
+    "id": -2099697608,
+    "displayName": "Stones",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/stones.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "metalpipe",
+    "id": 95950017,
+    "displayName": "Metal Pipe",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/metalpipe.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "techparts",
+    "id": 73681876,
+    "displayName": "Tech Trash",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/techparts.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "rope",
+    "id": 1414245522,
+    "displayName": "Rope",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/rope.png",
+    "isBaseResource": true
+  },
+  {
+    "shortName": "stash.small",
+    "id": -369760990,
+    "displayName": "Small Stash",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/stash.small.png",
+    "isBaseResource": false,
+    "craftingCost": {
+      "cloth": 10
     }
-  ]
-}
+  },
+  {
+    "shortName": "explosive.timed",
+    "id": 1248356124,
+    "displayName": "C4",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/explosive.timed.png",
+    "craftingCost": {
+      "explosives": 20,
+      "cloth": 5,
+      "techparts": 2
+    },
+    "selectable": true
+  },
+  {
+    "shortName": "ammo.rifle.explosive",
+    "id": -1321651331,
+    "displayName": "Explosive 5.56 Ammo",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rifle.explosive.png",
+    "craftingCost": {
+      "gunpowder": 10,
+      "metal.fragments": 5,
+      "sulfur": 5
+    },
+    "selectable": true,
+    "craftingIncrement": 3
+  },
+  {
+    "shortName": "explosive.satchel",
+    "id": -1878475007,
+    "displayName": "Satchel Charge",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/explosive.satchel.png",
+    "craftingCost": {
+      "grenade.beancan": 4,
+      "stash.small": 1,
+      "rope": 1
+    },
+    "selectable": true
+  },
+  {
+    "shortName": "ammo.rocket.basic",
+    "id": -742865266,
+    "displayName": "Rocket",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.basic.png",
+    "craftingCost": {
+      "metalpipe": 2,
+      "gunpowder": 150,
+      "explosives": 10
+    },
+    "selectable": true
+  },
+  {
+    "shortName": "ammo.rocket.hv",
+    "id": -1841918730,
+    "displayName": "High Velocity Rocket",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.hv.png",
+    "craftingCost": {
+      "metalpipe": 1,
+      "gunpowder": 100
+    },
+    "selectable": true
+  },
+  {
+    "shortName": "ammo.rocket.fire",
+    "id": 1638322904,
+    "displayName": "Incendiary Rocket",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.fire.png",
+    "craftingCost": {
+      "metalpipe": 2,
+      "gunpowder": 150,
+      "lowgradefuel": 75
+    },
+    "selectable": true
+  },
+  {
+    "shortName": "grenade.beancan",
+    "id": 1840822026,
+    "displayName": "Beancan Grenade",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/grenade.beancan.png",
+    "craftingCost": {
+      "gunpowder": 60,
+      "metal.fragments": 20
+    },
+    "selectable": true
+  },
+  {
+    "shortName": "grenade.f1",
+    "id": 143803535,
+    "displayName": "F1 Grenade",
+    "iconUrl": "https://cdn.rusthelp.com/images/public/grenade.f1.png",
+    "craftingCost": {
+      "gunpowder": 30,
+      "metal.fragments": 25
+    },
+    "selectable": true
+  }
+]
