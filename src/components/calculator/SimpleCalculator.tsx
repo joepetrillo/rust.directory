@@ -406,13 +406,15 @@ export default function SimpleCalculator() {
                         </div>
                       </AccordionTrigger>
                       <AccordionContent>
-                        <div className="space-y-4">
+                        <div className="space-y-3">
                           {/* Crafting tree */}
-                          <div className="overflow-auto rounded-md border bg-muted/20 p-3">
-                            <h4 className="mb-3 text-sm font-medium italic">
-                              Crafting Requirements
-                            </h4>
-                            <div className="space-y-1.5">
+                          <div className="overflow-auto rounded-md border bg-muted/20 p-0">
+                            <div className="border-b bg-muted px-3 py-2">
+                              <h4 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                                Crafting Requirements
+                              </h4>
+                            </div>
+                            <div className="space-y-1.5 p-3">
                               {breakdown.craftingTree
                                 .sort((a, b) => b.amount - a.amount)
                                 .map((node, index) => (
@@ -422,11 +424,13 @@ export default function SimpleCalculator() {
                           </div>
 
                           {/* Base resources summary for this item */}
-                          <div className="overflow-auto rounded-md border bg-muted/20 p-3">
-                            <h4 className="mb-3 text-sm font-medium italic">
-                              Base Resources
-                            </h4>
-                            <div className="space-y-1.5">
+                          <div className="overflow-auto rounded-md border bg-muted/20 p-0">
+                            <div className="border-b bg-muted px-3 py-2">
+                              <h4 className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+                                Base Resources
+                              </h4>
+                            </div>
+                            <div className="space-y-1.5 p-3">
                               {Object.entries(breakdown.totalBaseCosts)
                                 .sort((a, b) => b[1] - a[1])
                                 .map(([resourceName, amount]) => (
