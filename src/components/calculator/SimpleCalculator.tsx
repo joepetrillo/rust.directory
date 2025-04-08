@@ -270,6 +270,7 @@ export default function SimpleCalculator() {
 
   return (
     <div className="space-y-6">
+      {/* Item Selection Section */}
       <div>
         {/* Header */}
         <div className="mb-3 flex items-center justify-between">
@@ -364,12 +365,11 @@ export default function SimpleCalculator() {
         </div>
       </div>
 
-      {/* Cost breakdown */}
+      {/* Cost breakdown and Total Resources */}
       {calculationsExist ? (
-        <>
-          {/* Cost breakdown */}
-          <div>
-            {/* Individual cost breakdown */}
+        <div className="flex flex-col gap-6 md:flex-row">
+          {/* Left column - Cost breakdown */}
+          <div className="md:w-1/2 xl:w-1/3">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
               Cost Breakdown
               <Badge variant="outline" className="ml-1">
@@ -387,6 +387,7 @@ export default function SimpleCalculator() {
                   const item = getItemDetails(itemShortName);
                   const quantity = quantities[itemShortName];
                   if (!item || !quantity) return null;
+
                   return (
                     <AccordionItem key={itemShortName} value={itemShortName}>
                       <AccordionTrigger className="items-center py-3">
@@ -419,6 +420,7 @@ export default function SimpleCalculator() {
                                 ))}
                             </div>
                           </div>
+
                           {/* Base resources summary for this item */}
                           <div className="overflow-auto rounded-md border p-3">
                             <h4 className="mb-3 text-sm font-medium italic">
@@ -445,15 +447,15 @@ export default function SimpleCalculator() {
             </Accordion>
           </div>
 
-          {/* Total resources section */}
-          <div>
+          {/* Right column - Total resources */}
+          <div className="md:w-1/2 xl:w-2/3">
             <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
               Total Base Resources
               <Badge variant="outline" className="ml-1">
-                Final Cost
+                All Items
               </Badge>
             </h3>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
               {Object.entries(totalResources)
                 .sort((a, b) => b[1] - a[1])
                 .map(([resourceName, amount]) => {
@@ -461,7 +463,7 @@ export default function SimpleCalculator() {
                   return (
                     <div
                       key={resourceName}
-                      className="flex items-center gap-2 rounded-md border bg-muted/30 p-2"
+                      className="flex items-center gap-2 rounded-md border bg-muted/20 p-2"
                     >
                       <div className="relative h-10 w-10 flex-shrink-0">
                         <Image
@@ -485,9 +487,9 @@ export default function SimpleCalculator() {
                 })}
             </div>
           </div>
-        </>
+        </div>
       ) : (
-        <div className="flex flex-col items-center justify-center border p-8 text-center text-balance">
+        <div className="flex flex-col items-center justify-center p-8 text-center text-balance outline outline-border">
           <p className="text-lg font-medium text-muted-foreground">
             Select some items to get started
           </p>
