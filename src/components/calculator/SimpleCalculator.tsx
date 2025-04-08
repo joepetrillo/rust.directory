@@ -270,175 +270,183 @@ export default function SimpleCalculator() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold">Item Selection</h2>
-        <Button variant="secondary" size="sm" onClick={resetCalculator}>
-          Reset
-        </Button>
-      </div>
+      <div>
+        {/* Header */}
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-xl font-semibold">Item Selection</h2>
+          <Button variant="secondary" size="sm" onClick={resetCalculator}>
+            Reset
+          </Button>
+        </div>
 
-      {/* Boom selection */}
-      <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8">
-        {selectableItems.map((item) => (
-          <div
-            key={item.shortName}
-            className="relative p-3 outline outline-offset-0 outline-border"
-          >
-            {quantities[item.shortName] > 0 && (
-              <Button
-                type="button"
-                onClick={() => clearQuantity(item.shortName)}
-                variant="outline"
-                size="icon"
-                className="absolute top-2 right-2 h-6 w-6 rounded-full p-0"
-                aria-label="Clear quantity"
-              >
-                <X className="h-4 w-4" />
-              </Button>
-            )}
-            <div className="flex h-full flex-col items-center justify-between gap-3">
-              <div className="relative h-12 w-12 flex-shrink-0">
-                <Image
-                  src={`https://cdn.rusthelp.com/images/public/128/${item.shortName}.png`}
-                  alt={item.displayName}
-                  width={48}
-                  height={48}
-                  className="object-contain"
-                />
-              </div>
-              <p className="text-center text-sm font-medium">
-                {item.displayName}
-              </p>
-              <div className="flex items-center">
+        {/* Boom selection */}
+        <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8">
+          {selectableItems.map((item) => (
+            <div
+              key={item.shortName}
+              className="relative p-3 outline outline-offset-0 outline-border"
+            >
+              {quantities[item.shortName] > 0 && (
                 <Button
                   type="button"
-                  onClick={() =>
-                    decrementQuantity(
-                      item.shortName,
-                      item.craftingIncrement ?? 1,
-                    )
-                  }
-                  variant="secondary"
+                  onClick={() => clearQuantity(item.shortName)}
+                  variant="outline"
                   size="icon"
-                  className="h-8 w-8 rounded-l-md rounded-r-none focus:z-10"
-                  aria-label="Decrease quantity"
+                  className="absolute top-2 right-2 h-6 w-6 rounded-full p-0"
+                  aria-label="Clear quantity"
                 >
-                  <MinusIcon className="h-4 w-4" />
+                  <X className="h-4 w-4" />
                 </Button>
-                <Input
-                  inputMode="numeric"
-                  value={quantities[item.shortName] || ""}
-                  onChange={(e) =>
-                    handleQuantityChange(
-                      item.shortName,
-                      item.craftingIncrement ?? 1,
-                      e.target.value,
-                    )
-                  }
-                  onFocus={(e) => e.target.select()}
-                  className="h-8 w-16 rounded-none text-center text-sm focus:z-10"
-                  placeholder="0"
-                  aria-label="Quantity"
-                />
-                <Button
-                  type="button"
-                  onClick={() =>
-                    incrementQuantity(
-                      item.shortName,
-                      item.craftingIncrement ?? 1,
-                    )
-                  }
-                  variant="secondary"
-                  size="icon"
-                  className="h-8 w-8 rounded-l-none rounded-r-md focus:z-10"
-                  aria-label="Increase quantity"
-                >
-                  <PlusIcon className="h-4 w-4" />
-                </Button>
+              )}
+              <div className="flex h-full flex-col items-center justify-between gap-3">
+                <div className="relative h-12 w-12 flex-shrink-0">
+                  <Image
+                    src={`https://cdn.rusthelp.com/images/public/128/${item.shortName}.png`}
+                    alt={item.displayName}
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+                <p className="text-center text-sm font-medium">
+                  {item.displayName}
+                </p>
+                <div className="flex items-center">
+                  <Button
+                    type="button"
+                    onClick={() =>
+                      decrementQuantity(
+                        item.shortName,
+                        item.craftingIncrement ?? 1,
+                      )
+                    }
+                    variant="secondary"
+                    size="icon"
+                    className="h-8 w-8 rounded-l-md rounded-r-none focus:z-10"
+                    aria-label="Decrease quantity"
+                  >
+                    <MinusIcon className="h-4 w-4" />
+                  </Button>
+                  <Input
+                    inputMode="numeric"
+                    value={quantities[item.shortName] || ""}
+                    onChange={(e) =>
+                      handleQuantityChange(
+                        item.shortName,
+                        item.craftingIncrement ?? 1,
+                        e.target.value,
+                      )
+                    }
+                    onFocus={(e) => e.target.select()}
+                    className="h-8 w-16 rounded-none text-center text-sm focus:z-10"
+                    placeholder="0"
+                    aria-label="Quantity"
+                  />
+                  <Button
+                    type="button"
+                    onClick={() =>
+                      incrementQuantity(
+                        item.shortName,
+                        item.craftingIncrement ?? 1,
+                      )
+                    }
+                    variant="secondary"
+                    size="icon"
+                    className="h-8 w-8 rounded-l-none rounded-r-md focus:z-10"
+                    aria-label="Increase quantity"
+                  >
+                    <PlusIcon className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
       {/* Cost breakdown */}
       {calculationsExist ? (
-        <div className="space-y-4">
-          {/* Individual cost breakdown */}
-          <h3 className="text-lg font-semibold">Cost Breakdown</h3>
-          <Accordion type="single" collapsible>
-            {Object.entries(itemBreakdowns)
-              .sort(
-                (a, b) =>
-                  (b[1].totalBaseCosts.sulfur ?? 0) -
-                  (a[1].totalBaseCosts.sulfur ?? 0),
-              )
-              .map(([itemShortName, breakdown]) => {
-                const item = getItemDetails(itemShortName);
-                const quantity = quantities[itemShortName];
-                if (!item || !quantity) return null;
-
-                return (
-                  <AccordionItem key={itemShortName} value={itemShortName}>
-                    <AccordionTrigger className="items-center py-3">
-                      <div className="flex items-center gap-2">
-                        <div className="relative h-8 w-8 flex-shrink-0">
-                          <Image
-                            src={`https://cdn.rusthelp.com/images/public/128/${itemShortName}.png`}
-                            alt={item.displayName}
-                            width={32}
-                            height={32}
-                            className="object-contain"
-                          />
+        <>
+          {/* Cost breakdown */}
+          <div>
+            {/* Individual cost breakdown */}
+            <h3 className="flex items-center gap-2 text-lg font-semibold">
+              Cost Breakdown
+              <Badge variant="outline" className="ml-1">
+                Per Item
+              </Badge>
+            </h3>
+            <Accordion type="single" collapsible>
+              {Object.entries(itemBreakdowns)
+                .sort(
+                  (a, b) =>
+                    (b[1].totalBaseCosts.sulfur ?? 0) -
+                    (a[1].totalBaseCosts.sulfur ?? 0),
+                )
+                .map(([itemShortName, breakdown]) => {
+                  const item = getItemDetails(itemShortName);
+                  const quantity = quantities[itemShortName];
+                  if (!item || !quantity) return null;
+                  return (
+                    <AccordionItem key={itemShortName} value={itemShortName}>
+                      <AccordionTrigger className="items-center py-3">
+                        <div className="flex items-center gap-2">
+                          <div className="relative h-8 w-8 flex-shrink-0">
+                            <Image
+                              src={`https://cdn.rusthelp.com/images/public/128/${itemShortName}.png`}
+                              alt={item.displayName}
+                              width={32}
+                              height={32}
+                              className="object-contain"
+                            />
+                          </div>
+                          <span>{item.displayName}</span>
+                          <Badge variant="secondary">{quantity}</Badge>
                         </div>
-                        <span>{item.displayName}</span>
-                        <Badge variant="secondary">{quantity}</Badge>
-                      </div>
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-4">
-                        {/* Crafting tree */}
-                        <div className="overflow-auto rounded-md border p-3">
-                          <h4 className="mb-3 text-sm font-medium italic">
-                            Crafting Requirements
-                          </h4>
-                          <div className="space-y-1.5">
-                            {breakdown.craftingTree
-                              .sort((a, b) => b.amount - a.amount)
-                              .map((node, index) => (
-                                <CraftingTreeNode key={index} node={node} />
-                              ))}
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-4">
+                          {/* Crafting tree */}
+                          <div className="overflow-auto rounded-md border p-3">
+                            <h4 className="mb-3 text-sm font-medium italic">
+                              Crafting Requirements
+                            </h4>
+                            <div className="space-y-1.5">
+                              {breakdown.craftingTree
+                                .sort((a, b) => b.amount - a.amount)
+                                .map((node, index) => (
+                                  <CraftingTreeNode key={index} node={node} />
+                                ))}
+                            </div>
+                          </div>
+                          {/* Base resources summary for this item */}
+                          <div className="overflow-auto rounded-md border p-3">
+                            <h4 className="mb-3 text-sm font-medium italic">
+                              Base Resources
+                            </h4>
+                            <div className="space-y-1.5">
+                              {Object.entries(breakdown.totalBaseCosts)
+                                .sort((a, b) => b[1] - a[1])
+                                .map(([resourceName, amount]) => (
+                                  <ResourceDisplay
+                                    key={resourceName}
+                                    resourceName={resourceName}
+                                    amount={amount}
+                                    isTopLevel={true}
+                                  />
+                                ))}
+                            </div>
                           </div>
                         </div>
-
-                        {/* Base resources summary for this item */}
-                        <div className="overflow-auto rounded-md border p-3">
-                          <h4 className="mb-3 text-sm font-medium italic">
-                            Base Resources
-                          </h4>
-                          <div className="space-y-1.5">
-                            {Object.entries(breakdown.totalBaseCosts)
-                              .sort((a, b) => b[1] - a[1])
-                              .map(([resourceName, amount]) => (
-                                <ResourceDisplay
-                                  key={resourceName}
-                                  resourceName={resourceName}
-                                  amount={amount}
-                                  isTopLevel={true}
-                                />
-                              ))}
-                          </div>
-                        </div>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                );
-              })}
-          </Accordion>
+                      </AccordionContent>
+                    </AccordionItem>
+                  );
+                })}
+            </Accordion>
+          </div>
 
           {/* Total resources section */}
-          <div className="mt-6">
+          <div>
             <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
               Total Base Resources
               <Badge variant="outline" className="ml-1">
@@ -477,7 +485,7 @@ export default function SimpleCalculator() {
                 })}
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <div className="flex flex-col items-center justify-center border p-8 text-center text-balance">
           <p className="text-lg font-medium text-muted-foreground">
