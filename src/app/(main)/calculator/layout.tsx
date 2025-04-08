@@ -25,7 +25,7 @@ export default function CalculatorLayout({
       <h1 className="mb-1 text-2xl font-bold">Raid Calculator</h1>
       <p className="mb-4 text-balance text-muted-foreground">
         Calculate raid costs and resources needed for your raids. Choose between
-        simple and advanced mode based on your needs.
+        simple and advanced. All calculations are based on vanilla game values.
       </p>
 
       <Tabs value={currentTab} onValueChange={handleTabChange}>

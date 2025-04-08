@@ -408,7 +408,7 @@ export default function SimpleCalculator() {
                       <AccordionContent>
                         <div className="space-y-4">
                           {/* Crafting tree */}
-                          <div className="overflow-auto rounded-md border p-3">
+                          <div className="overflow-auto rounded-md border bg-muted/20 p-3">
                             <h4 className="mb-3 text-sm font-medium italic">
                               Crafting Requirements
                             </h4>
@@ -422,7 +422,7 @@ export default function SimpleCalculator() {
                           </div>
 
                           {/* Base resources summary for this item */}
-                          <div className="overflow-auto rounded-md border p-3">
+                          <div className="overflow-auto rounded-md border bg-muted/20 p-3">
                             <h4 className="mb-3 text-sm font-medium italic">
                               Base Resources
                             </h4>
