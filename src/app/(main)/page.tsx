@@ -54,7 +54,7 @@ export default function Home() {
   });
 
   return (
-    <div className="mt-10 flex flex-col items-center justify-center">
+    <div className="mt-3 flex flex-col items-center justify-center">
       <h1 className="mb-1 text-center font-editorial text-5xl font-light italic">
         Rust Directory
       </h1>

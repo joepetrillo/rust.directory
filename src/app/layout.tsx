@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script";
 import ThemeSwitcher from "../components/theme-switcher";
 import "./globals.css";
 
@@ -35,6 +36,12 @@ export default function RootLayout({
 }>) {
   return (
     <html suppressHydrationWarning lang="en">
+      <head>
+        <Script
+          src="//unpkg.com/react-scan/dist/auto.global.js"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={`${mori.variable} ${editorial.variable} ${geistMono.variable} overflow-y-scroll font-sans antialiased`}
       >
