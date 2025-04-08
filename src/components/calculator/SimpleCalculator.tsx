@@ -30,7 +30,6 @@ const getItemDetails = (shortName: string) => {
   return typedData.find((i) => i.shortName === shortName);
 };
 
-// Memoized ResourceDisplay component
 const ResourceDisplay = memo(
   ({
     resourceName,
@@ -68,7 +67,6 @@ const ResourceDisplay = memo(
 );
 ResourceDisplay.displayName = "ResourceDisplay";
 
-// Memoized CraftingTreeNode component
 const CraftingTreeNode = memo(
   ({ node, depth = 0 }: { node: CraftingNode; depth?: number }) => {
     const hasChildren = node.children.length > 0;
@@ -417,11 +415,11 @@ export default function SimpleCalculator() {
                         {/* Base resources summary for this item */}
                         <div className="overflow-auto rounded-md border p-3">
                           <h4 className="mb-3 text-sm font-medium italic">
-                            Base Resources Total
+                            Base Resources
                           </h4>
                           <div className="space-y-1.5">
                             {Object.entries(breakdown.totalBaseCosts)
-                              .sort((a, b) => b[1] - a[1]) // Sort by amount desc
+                              .sort((a, b) => b[1] - a[1])
                               .map(([resourceName, amount]) => (
                                 <ResourceDisplay
                                   key={resourceName}
@@ -449,13 +447,13 @@ export default function SimpleCalculator() {
             </h3>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
               {Object.entries(totalResources)
-                .sort((a, b) => b[1] - a[1]) // Sort by amount desc
+                .sort((a, b) => b[1] - a[1])
                 .map(([resourceName, amount]) => {
                   const itemDetails = getItemDetails(resourceName);
                   return (
                     <div
                       key={resourceName}
-                      className="flex items-center gap-2 rounded-md border bg-muted/10 p-2"
+                      className="flex items-center gap-2 rounded-md border bg-muted/30 p-2"
                     >
                       <div className="relative h-10 w-10 flex-shrink-0">
                         <Image
