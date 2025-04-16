@@ -23,9 +23,9 @@ export default function CalculatorLayout({
   return (
     <div>
       <h1 className="mb-1 text-2xl font-bold">Raid Calculator</h1>
-      <p className="mb-4 text-balance text-muted-foreground">
-        Calculate raid costs and resources needed for your raids. Choose between
-        simple and advanced. All calculations are based on vanilla game values.
+      <p className="mb-4 max-w-prose text-balance text-muted-foreground">
+        Calculate resources needed for your raids. Choose between simple and
+        advanced mode. All calculations are based on vanilla game values.
       </p>
 
       <Tabs value={currentTab} onValueChange={handleTabChange}>

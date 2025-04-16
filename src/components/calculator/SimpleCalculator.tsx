@@ -10,7 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import raidData from "@/data/raid-data.json";
-import { roundToIncrement } from "@/lib/utils";
+import { cn, roundToIncrement } from "@/lib/utils";
 import {
   BreakdownMap,
   CraftingNode,
@@ -285,7 +285,11 @@ export default function SimpleCalculator() {
           {selectableItems.map((item) => (
             <div
               key={item.shortName}
-              className="relative p-3 outline outline-offset-0 outline-border"
+              className={cn(
+                "relative p-3 outline outline-offset-0 outline-border",
+                quantities[item.shortName] > 0 &&
+                  "z-10 outline-muted-foreground",
+              )}
             >
               {quantities[item.shortName] > 0 && (
                 <Button
