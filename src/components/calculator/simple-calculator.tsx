@@ -372,7 +372,7 @@ export default function SimpleCalculator() {
       {/* Cost breakdown and Total Resources */}
       {calculationsExist ? (
         <div className="flex flex-col gap-x-6 gap-y-3 md:flex-row">
-          {/* Left column - Cost breakdown */}
+          {/* Cost breakdown */}
           <div className="md:w-1/2 xl:w-1/3">
             <h3 className="flex items-center gap-2 text-lg font-semibold">
               Cost Breakdown
@@ -455,7 +455,7 @@ export default function SimpleCalculator() {
             </Accordion>
           </div>
 
-          {/* Right column - Total resources */}
+          {/* Total resources */}
           <div className="md:w-1/2 xl:w-2/3">
             <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
               Total Base Resources
