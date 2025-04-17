@@ -281,7 +281,7 @@ export default function SimpleCalculator() {
         </div>
 
         {/* Boom selection */}
-        <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8">
+        <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4">
           {selectableItems.map((item) => (
             <div
               key={item.shortName}
@@ -343,7 +343,7 @@ export default function SimpleCalculator() {
                       )
                     }
                     onFocus={(e) => e.target.select()}
-                    className="h-8 w-16 rounded-none text-center text-sm focus:z-10"
+                    className="h-8 w-17 rounded-none text-center text-base focus:z-10 sm:text-sm"
                     placeholder="0"
                     aria-label="Quantity"
                   />
