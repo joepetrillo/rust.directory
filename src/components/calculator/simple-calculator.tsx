@@ -463,11 +463,25 @@ export default function SimpleCalculator() {
                 All Items
               </Badge>
             </h3>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="grid auto-rows-fr grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
               {Object.entries(totalResources)
                 .sort((a, b) => b[1] - a[1])
                 .map(([resourceName, amount]) => {
                   const itemDetails = getItemDetails(resourceName);
+                  const isSulfur = resourceName === "sulfur";
+                  const isMetal = resourceName === "metal.fragments";
+                  const isLowGrade = resourceName === "lowgradefuel";
+
+                  const sulfurNodesRequired = isSulfur
+                    ? Math.ceil(amount / 300)
+                    : null;
+                  const metalNodesRequired = isMetal
+                    ? Math.ceil(amount / 600)
+                    : null;
+                  const crudeOilRequired = isLowGrade
+                    ? Math.ceil(amount / 3)
+                    : null;
+
                   return (
                     <div
                       key={resourceName}
@@ -486,9 +500,26 @@ export default function SimpleCalculator() {
                         <p className="text-sm font-medium">
                           {itemDetails?.displayName || resourceName}
                         </p>
-                        <p className="text-sm text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
                           {amount.toLocaleString()}
-                        </p>
+                          {isSulfur && (
+                            <span className="text-xs">
+                              ({sulfurNodesRequired} node
+                              {sulfurNodesRequired !== 1 ? "s" : ""})
+                            </span>
+                          )}
+                          {isMetal && (
+                            <span className="text-xs">
+                              ({metalNodesRequired} node
+                              {metalNodesRequired !== 1 ? "s" : ""})
+                            </span>
+                          )}
+                          {isLowGrade && (
+                            <span className="text-xs">
+                              ({crudeOilRequired} crude oil)
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );

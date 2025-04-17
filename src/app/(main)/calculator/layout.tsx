@@ -24,7 +24,7 @@ export default function CalculatorLayout({
     <div>
       <h1 className="mb-1 text-2xl font-bold">Raid Calculator</h1>
       <p className="mb-4 max-w-prose text-balance text-muted-foreground">
-        Calculate resources needed for your raids. Choose between simple and
+        Calculate everything needed for your raids. Choose between simple and
         advanced mode. All calculations are based on vanilla game values.
       </p>
 
