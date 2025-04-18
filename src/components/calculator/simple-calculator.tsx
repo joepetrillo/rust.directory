@@ -387,7 +387,7 @@ export default function SimpleCalculator() {
                 All Items
               </Badge>
             </h3>
-            <div className="grid auto-rows-fr grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="grid auto-rows-fr grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
               {Object.entries(totalResources)
                 .sort((a, b) => b[1] - a[1])
                 .map(([resourceName, amount]) => {
@@ -412,7 +412,7 @@ export default function SimpleCalculator() {
                   return (
                     <div
                       key={resourceName}
-                      className="flex items-center gap-2 rounded-md border bg-muted/20 p-2"
+                      className="flex items-center gap-2 rounded-md border bg-muted/20 p-2.5"
                     >
                       <div className="relative h-10 w-10 flex-shrink-0">
                         <Image
@@ -424,26 +424,26 @@ export default function SimpleCalculator() {
                         />
                       </div>
                       <div>
-                        <p className="text-sm font-medium">
+                        <p className="mb-0.5 text-sm font-medium">
                           {itemDetails.displayName || resourceName}
                         </p>
                         <div className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
                           {amount.toLocaleString()}
                           {isSulfur && (
-                            <span className="text-xs">
-                              ({sulfurNodesRequired} node
+                            <span>
+                              ({sulfurNodesRequired?.toLocaleString()} node
                               {sulfurNodesRequired !== 1 ? "s" : ""})
                             </span>
                           )}
                           {isMetal && (
-                            <span className="text-xs">
-                              ({metalNodesRequired} node
+                            <span>
+                              ({metalNodesRequired?.toLocaleString()} node
                               {metalNodesRequired !== 1 ? "s" : ""})
                             </span>
                           )}
                           {isLowGrade && (
-                            <span className="text-xs">
-                              ({crudeOilRequired} crude oil)
+                            <span>
+                              ({crudeOilRequired?.toLocaleString()} crude oil)
                             </span>
                           )}
                         </div>
