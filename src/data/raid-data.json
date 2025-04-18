@@ -1,194 +1,630 @@
-[
-  {
-    "shortName": "explosives",
-    "id": -592016202,
-    "displayName": "Explosives",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/explosives.png",
-    "isBaseResource": false,
-    "craftingCost": {
-      "gunpowder": 50,
-      "lowgradefuel": 3,
-      "sulfur": 10,
-      "metal.fragments": 10
+{
+  "explosiveItems": [
+    {
+      "shortName": "explosives",
+      "id": -592016202,
+      "displayName": "Explosives",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/explosives.png",
+      "isBaseResource": false,
+      "craftingCost": {
+        "gunpowder": 50,
+        "lowgradefuel": 3,
+        "sulfur": 10,
+        "metal.fragments": 10
+      }
+    },
+    {
+      "shortName": "gunpowder",
+      "id": -265876753,
+      "displayName": "Gun Powder",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/gunpowder.png",
+      "isBaseResource": false,
+      "craftingCost": {
+        "charcoal": 3,
+        "sulfur": 2
+      },
+      "craftingIncrement": 10
+    },
+    {
+      "shortName": "charcoal",
+      "id": -1938052175,
+      "displayName": "Charcoal",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/charcoal.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "sulfur",
+      "id": -1581843485,
+      "displayName": "Sulfur",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/sulfur.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "metal.fragments",
+      "id": 69511070,
+      "displayName": "Metal Fragments",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/metal.fragments.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "lowgradefuel",
+      "id": -946369541,
+      "displayName": "Low Grade Fuel",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/lowgradefuel.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "cloth",
+      "id": -858312878,
+      "displayName": "Cloth",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/cloth.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "stones",
+      "id": -2099697608,
+      "displayName": "Stones",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/stones.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "metalpipe",
+      "id": 95950017,
+      "displayName": "Metal Pipe",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/metalpipe.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "techparts",
+      "id": 73681876,
+      "displayName": "Tech Trash",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/techparts.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "rope",
+      "id": 1414245522,
+      "displayName": "Rope",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/rope.png",
+      "isBaseResource": true
+    },
+    {
+      "shortName": "stash.small",
+      "id": -369760990,
+      "displayName": "Small Stash",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/stash.small.png",
+      "isBaseResource": false,
+      "craftingCost": {
+        "cloth": 10
+      }
+    },
+    {
+      "shortName": "explosive.timed",
+      "id": 1248356124,
+      "displayName": "C4",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/explosive.timed.png",
+      "craftingCost": {
+        "explosives": 20,
+        "cloth": 5,
+        "techparts": 2
+      },
+      "selectable": true
+    },
+    {
+      "shortName": "ammo.rifle.explosive",
+      "id": -1321651331,
+      "displayName": "Explosive 5.56 Ammo",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/ammo.rifle.explosive.png",
+      "craftingCost": {
+        "gunpowder": 10,
+        "metal.fragments": 5,
+        "sulfur": 5
+      },
+      "selectable": true,
+      "craftingIncrement": 3
+    },
+    {
+      "shortName": "explosive.satchel",
+      "id": -1878475007,
+      "displayName": "Satchel Charge",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/explosive.satchel.png",
+      "craftingCost": {
+        "grenade.beancan": 4,
+        "stash.small": 1,
+        "rope": 1
+      },
+      "selectable": true
+    },
+    {
+      "shortName": "ammo.rocket.basic",
+      "id": -742865266,
+      "displayName": "Rocket",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/ammo.rocket.basic.png",
+      "craftingCost": {
+        "metalpipe": 2,
+        "gunpowder": 150,
+        "explosives": 10
+      },
+      "selectable": true
+    },
+    {
+      "shortName": "ammo.rocket.hv",
+      "id": -1841918730,
+      "displayName": "High Velocity Rocket",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/ammo.rocket.hv.png",
+      "craftingCost": {
+        "metalpipe": 1,
+        "gunpowder": 100
+      },
+      "selectable": true
+    },
+    {
+      "shortName": "ammo.rocket.fire",
+      "id": 1638322904,
+      "displayName": "Incendiary Rocket",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/ammo.rocket.fire.png",
+      "craftingCost": {
+        "metalpipe": 2,
+        "gunpowder": 150,
+        "lowgradefuel": 75
+      },
+      "selectable": true
+    },
+    {
+      "shortName": "grenade.beancan",
+      "id": 1840822026,
+      "displayName": "Beancan Grenade",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/grenade.beancan.png",
+      "craftingCost": {
+        "gunpowder": 60,
+        "metal.fragments": 20
+      },
+      "selectable": true
+    },
+    {
+      "shortName": "grenade.f1",
+      "id": 143803535,
+      "displayName": "F1 Grenade",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/grenade.f1.png",
+      "craftingCost": {
+        "gunpowder": 30,
+        "metal.fragments": 25
+      },
+      "selectable": true
     }
-  },
-  {
-    "shortName": "gunpowder",
-    "id": -265876753,
-    "displayName": "Gun Powder",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/gunpowder.png",
-    "isBaseResource": false,
-    "craftingCost": {
-      "charcoal": 3,
-      "sulfur": 2
+  ],
+  "raidableItems": [
+    {
+      "shortName": "wood-wall",
+      "id": null,
+      "displayName": "Wood Block",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wood-wall.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
     },
-    "craftingIncrement": 10
-  },
-  {
-    "shortName": "charcoal",
-    "id": -1938052175,
-    "displayName": "Charcoal",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/charcoal.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "sulfur",
-    "id": -1581843485,
-    "displayName": "Sulfur",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/sulfur.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "metal.fragments",
-    "id": 69511070,
-    "displayName": "Metal Fragments",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/metal.fragments.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "lowgradefuel",
-    "id": -946369541,
-    "displayName": "Low Grade Fuel",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/lowgradefuel.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "cloth",
-    "id": -858312878,
-    "displayName": "Cloth",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/cloth.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "stones",
-    "id": -2099697608,
-    "displayName": "Stones",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/stones.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "metalpipe",
-    "id": 95950017,
-    "displayName": "Metal Pipe",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/metalpipe.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "techparts",
-    "id": 73681876,
-    "displayName": "Tech Trash",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/techparts.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "rope",
-    "id": 1414245522,
-    "displayName": "Rope",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/rope.png",
-    "isBaseResource": true
-  },
-  {
-    "shortName": "stash.small",
-    "id": -369760990,
-    "displayName": "Small Stash",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/stash.small.png",
-    "isBaseResource": false,
-    "craftingCost": {
-      "cloth": 10
+    {
+      "shortName": "stone-wall",
+      "id": null,
+      "displayName": "Stone Block",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/stone-wall.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "metal-wall",
+      "id": null,
+      "displayName": "Metal Block",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/metal-wall.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "armored-wall",
+      "id": null,
+      "displayName": "Armored Block",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/armored-wall.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "door.hinged.wood",
+      "id": 1729120840,
+      "displayName": "Wooden Door",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/door.hinged.wood.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "door.hinged.metal",
+      "id": -2067472972,
+      "displayName": "Sheet Metal Door",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/door.hinged.metal.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "door.hinged.toptier",
+      "id": 1353298668,
+      "displayName": "Armored Door",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/door.hinged.toptier.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.frame.garagedoor",
+      "id": -148794216,
+      "displayName": "Garage Door",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.frame.garagedoor.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "autoturret",
+      "id": -2139580305,
+      "displayName": "Auto Turret",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/autoturret.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "flameturret",
+      "id": 528668503,
+      "displayName": "Flame Turret",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/flameturret.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "guntrap",
+      "id": 352499047,
+      "displayName": "Shotgun Trap",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/guntrap.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "shutter.metal.embrasure.a",
+      "id": -1199897169,
+      "displayName": "Metal Embrasure",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/shutter.metal.embrasure.a.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.window.bars.wood",
+      "id": -1183726687,
+      "displayName": "Wooden Window Bars",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.window.bars.wood.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.window.bars.metal",
+      "id": -819720157,
+      "displayName": "Metal Window Bars",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.window.bars.metal.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.window.glass.reinforced",
+      "id": -1614955425,
+      "displayName": "Strengthened Glass Window",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.window.glass.reinforced.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.window.bars.toptier",
+      "id": 671706427,
+      "displayName": "Reinforced Glass Window",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.window.bars.toptier.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.frame.fence",
+      "id": -1117626326,
+      "displayName": "Chainlink Block",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.frame.fence.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.frame.shopfront.metal",
+      "id": -148229307,
+      "displayName": "Metal Shop Front",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.frame.shopfront.metal.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "barricade.metal",
+      "id": 1655650836,
+      "displayName": "Metal Barricade",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/barricade.metal.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.external.high",
+      "id": 99588025,
+      "displayName": "High External Wooden Wall",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.external.high.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "wall.external.high.stone",
+      "id": -967648160,
+      "displayName": "High External Stone Wall",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/wall.external.high.stone.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "floor.ladder.hatch",
+      "id": 1948067030,
+      "displayName": "Ladder Hatch",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/floor.ladder.hatch.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "cupboard.tool",
+      "id": -97956382,
+      "displayName": "Tool Cupboard",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/cupboard.tool.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "workbench1",
+      "id": 1524187186,
+      "displayName": "Workbench Level 1",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/workbench1.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "workbench2",
+      "id": -41896755,
+      "displayName": "Workbench Level 2",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/workbench2.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "workbench3",
+      "id": -1607980696,
+      "displayName": "Workbench Level 3",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/workbench3.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
+    },
+    {
+      "shortName": "vending.machine",
+      "id": 198438816,
+      "displayName": "Vending Machine",
+      "iconUrl": "https://cdn.rusthelp.com/images/128/vending.machine.png",
+      "damageValues": {
+        "explosive.timed": 0,
+        "ammo.rifle.explosive": 0,
+        "explosive.satchel": 0,
+        "ammo.rocket.basic": 0,
+        "ammo.rocket.hv": 0,
+        "ammo.rocket.fire": 0,
+        "grenade.beancan": 0,
+        "grenade.f1": 0
+      }
     }
-  },
-  {
-    "shortName": "explosive.timed",
-    "id": 1248356124,
-    "displayName": "C4",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/explosive.timed.png",
-    "craftingCost": {
-      "explosives": 20,
-      "cloth": 5,
-      "techparts": 2
-    },
-    "selectable": true
-  },
-  {
-    "shortName": "ammo.rifle.explosive",
-    "id": -1321651331,
-    "displayName": "Explosive 5.56 Ammo",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rifle.explosive.png",
-    "craftingCost": {
-      "gunpowder": 10,
-      "metal.fragments": 5,
-      "sulfur": 5
-    },
-    "selectable": true,
-    "craftingIncrement": 3
-  },
-  {
-    "shortName": "explosive.satchel",
-    "id": -1878475007,
-    "displayName": "Satchel Charge",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/explosive.satchel.png",
-    "craftingCost": {
-      "grenade.beancan": 4,
-      "stash.small": 1,
-      "rope": 1
-    },
-    "selectable": true
-  },
-  {
-    "shortName": "ammo.rocket.basic",
-    "id": -742865266,
-    "displayName": "Rocket",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.basic.png",
-    "craftingCost": {
-      "metalpipe": 2,
-      "gunpowder": 150,
-      "explosives": 10
-    },
-    "selectable": true
-  },
-  {
-    "shortName": "ammo.rocket.hv",
-    "id": -1841918730,
-    "displayName": "High Velocity Rocket",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.hv.png",
-    "craftingCost": {
-      "metalpipe": 1,
-      "gunpowder": 100
-    },
-    "selectable": true
-  },
-  {
-    "shortName": "ammo.rocket.fire",
-    "id": 1638322904,
-    "displayName": "Incendiary Rocket",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/ammo.rocket.fire.png",
-    "craftingCost": {
-      "metalpipe": 2,
-      "gunpowder": 150,
-      "lowgradefuel": 75
-    },
-    "selectable": true
-  },
-  {
-    "shortName": "grenade.beancan",
-    "id": 1840822026,
-    "displayName": "Beancan Grenade",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/grenade.beancan.png",
-    "craftingCost": {
-      "gunpowder": 60,
-      "metal.fragments": 20
-    },
-    "selectable": true
-  },
-  {
-    "shortName": "grenade.f1",
-    "id": 143803535,
-    "displayName": "F1 Grenade",
-    "iconUrl": "https://cdn.rusthelp.com/images/public/grenade.f1.png",
-    "craftingCost": {
-      "gunpowder": 30,
-      "metal.fragments": 25
-    },
-    "selectable": true
-  }
-]
+  ]
+}

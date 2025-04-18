@@ -9,96 +9,20 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import raidData from "@/data/raid-data.json";
+import { getItemDetails, selectableItems } from "@/lib/item-utils";
 import { cn, roundToIncrement } from "@/lib/utils";
 import {
   BreakdownMap,
   CraftingNode,
-  Item,
   ItemBreakdown,
   Quantities,
   ResourcesRequired,
 } from "@/types/calculator";
 import { MinusIcon, PlusIcon, X } from "lucide-react";
 import Image from "next/image";
-import { memo, useCallback, useEffect, useState } from "react";
-
-const typedData = raidData as unknown as Item[];
-const selectableItems = typedData.filter((i) => i.selectable);
-
-const getItemDetails = (shortName: string) => {
-  return typedData.find((i) => i.shortName === shortName);
-};
-
-const ResourceDisplay = memo(
-  ({
-    resourceName,
-    amount,
-    isTopLevel = false,
-  }: {
-    resourceName: string;
-    amount: number;
-    isTopLevel?: boolean;
-  }) => {
-    const details = getItemDetails(resourceName);
-    return (
-      <div className="relative flex items-center gap-2">
-        {!isTopLevel && (
-          <div className="absolute top-[11px] -left-[27px] h-[2px] w-5 bg-border" />
-        )}
-        <div className="relative h-6 w-6 flex-shrink-0">
-          <Image
-            src={`https://cdn.rusthelp.com/images/public/128/${resourceName}.png`}
-            alt={details?.displayName || resourceName}
-            width={24}
-            height={24}
-            className="object-contain"
-          />
-        </div>
-        <span className="text-sm font-medium whitespace-nowrap">
-          {details?.displayName || resourceName}
-        </span>
-        <span className="text-sm whitespace-nowrap text-muted-foreground">
-          {amount.toLocaleString()}
-        </span>
-      </div>
-    );
-  },
-);
-ResourceDisplay.displayName = "ResourceDisplay";
-
-const CraftingTreeNode = memo(
-  ({ node, depth = 0 }: { node: CraftingNode; depth?: number }) => {
-    const hasChildren = node.children.length > 0;
-
-    return (
-      <div className={`space-y-1.5 ${depth > 0 ? "ml-4" : ""}`}>
-        <ResourceDisplay
-          resourceName={node.resourceName}
-          amount={node.amount}
-          isTopLevel={depth === 0}
-        />
-        {hasChildren && (
-          <div className="relative pl-6">
-            <div className="absolute top-0 bottom-[11px] left-[11px] w-[2px] bg-border" />
-            <div className="space-y-1.5">
-              {node.children
-                .sort((a, b) => b.amount - a.amount)
-                .map((child, index) => (
-                  <CraftingTreeNode
-                    key={index}
-                    node={child}
-                    depth={depth + 1}
-                  />
-                ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  },
-);
-CraftingTreeNode.displayName = "CraftingTreeNode";
+import { useCallback, useEffect, useState } from "react";
+import { CraftingTreeNode } from "./crafting-tree-node";
+import { ResourceDisplay } from "./resource-display";
 
 export default function SimpleCalculator() {
   const [quantities, setQuantities] = useState<Quantities>({});
@@ -306,7 +230,7 @@ export default function SimpleCalculator() {
               <div className="flex h-full flex-col items-center justify-between gap-3">
                 <div className="relative h-12 w-12 flex-shrink-0">
                   <Image
-                    src={`https://cdn.rusthelp.com/images/public/128/${item.shortName}.png`}
+                    src={item.iconUrl}
                     alt={item.displayName}
                     width={48}
                     height={48}
@@ -398,7 +322,7 @@ export default function SimpleCalculator() {
                         <div className="flex items-center gap-2">
                           <div className="relative h-8 w-8 flex-shrink-0">
                             <Image
-                              src={`https://cdn.rusthelp.com/images/public/128/${itemShortName}.png`}
+                              src={item.iconUrl}
                               alt={item.displayName}
                               width={32}
                               height={32}
@@ -468,6 +392,9 @@ export default function SimpleCalculator() {
                 .sort((a, b) => b[1] - a[1])
                 .map(([resourceName, amount]) => {
                   const itemDetails = getItemDetails(resourceName);
+
+                  if (!itemDetails) return null;
+
                   const isSulfur = resourceName === "sulfur";
                   const isMetal = resourceName === "metal.fragments";
                   const isLowGrade = resourceName === "lowgradefuel";
@@ -489,8 +416,8 @@ export default function SimpleCalculator() {
                     >
                       <div className="relative h-10 w-10 flex-shrink-0">
                         <Image
-                          src={`https://cdn.rusthelp.com/images/public/128/${resourceName}.png`}
-                          alt={itemDetails?.displayName || resourceName}
+                          src={itemDetails.iconUrl}
+                          alt={itemDetails.displayName || resourceName}
                           width={40}
                           height={40}
                           className="object-contain"
@@ -498,7 +425,7 @@ export default function SimpleCalculator() {
                       </div>
                       <div>
                         <p className="text-sm font-medium">
-                          {itemDetails?.displayName || resourceName}
+                          {itemDetails.displayName || resourceName}
                         </p>
                         <div className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
                           {amount.toLocaleString()}

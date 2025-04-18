@@ -1,13 +1,20 @@
 // Base interface for all items
-export interface Item {
+interface Item {
   shortName: string;
-  id: number;
+  id: number | null;
   displayName: string;
   iconUrl: string;
+}
+
+export interface ExplosiveItem extends Item {
   isBaseResource?: boolean;
   craftingCost?: Record<string, number>;
   craftingIncrement?: number;
   selectable?: boolean;
+}
+
+export interface RaidableItem extends Item {
+  damageValues: Record<string, number>;
 }
 
 export interface ItemBreakdown {
