@@ -18,7 +18,7 @@ import {
   Quantities,
   ResourcesRequired,
 } from "@/types/calculator";
-import { MinusIcon, PlusIcon, X } from "lucide-react";
+import { MinusIcon, PlusIcon, Undo2, X } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { CraftingTreeNode } from "./crafting-tree-node";
@@ -197,11 +197,19 @@ export default function SimpleCalculator() {
       {/* Item Selection Section */}
       <div>
         {/* Header */}
-        <div className="mb-3 flex items-center justify-between">
+        <div className="mb-3 flex h-[32px] items-center justify-between">
           <h2 className="text-xl font-semibold">Item Selection</h2>
-          <Button variant="secondary" size="sm" onClick={resetCalculator}>
-            Reset
-          </Button>
+          <div
+            className="transition-opacity duration-150 ease-in-out"
+            style={{
+              opacity: calculationsExist ? 1 : 0,
+              pointerEvents: calculationsExist ? "auto" : "none",
+            }}
+          >
+            <Button variant="secondary" size="sm" onClick={resetCalculator}>
+              <Undo2 className="mb-0.5 size-4" /> Reset
+            </Button>
+          </div>
         </div>
 
         {/* Boom selection */}
@@ -209,24 +217,17 @@ export default function SimpleCalculator() {
           {selectableExplosives.map((item) => (
             <div
               key={item.shortName}
+              style={{
+                transition:
+                  "outline-color 300ms ease-in-out, z-index 300ms 300ms ease-in-out",
+                transitionDelay: quantities[item.shortName] > 0 ? "0ms" : "",
+              }}
               className={cn(
-                "relative p-3 outline outline-offset-0 outline-border",
+                "relative z-0 p-3 outline outline-offset-0 outline-border",
                 quantities[item.shortName] > 0 &&
                   "z-10 outline-muted-foreground",
               )}
             >
-              {quantities[item.shortName] > 0 && (
-                <Button
-                  type="button"
-                  onClick={() => clearQuantity(item.shortName)}
-                  variant="outline"
-                  size="icon"
-                  className="absolute top-2 right-2 h-6 w-6 rounded-full p-0"
-                  aria-label="Clear quantity"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
               <div className="flex h-full flex-col items-center justify-between gap-3">
                 <div className="relative h-12 w-12 flex-shrink-0">
                   <Image
@@ -254,7 +255,7 @@ export default function SimpleCalculator() {
                     className="h-8 w-8 rounded-l-md rounded-r-none focus:z-10"
                     aria-label="Decrease quantity"
                   >
-                    <MinusIcon className="h-4 w-4" />
+                    <MinusIcon className="size-4" />
                   </Button>
                   <Input
                     inputMode="numeric"
@@ -284,9 +285,28 @@ export default function SimpleCalculator() {
                     className="h-8 w-8 rounded-l-none rounded-r-md focus:z-10"
                     aria-label="Increase quantity"
                   >
-                    <PlusIcon className="h-4 w-4" />
+                    <PlusIcon className="size-4" />
                   </Button>
                 </div>
+              </div>
+              <div
+                className="transition-opacity duration-150 ease-in-out"
+                style={{
+                  opacity: quantities[item.shortName] > 0 ? 1 : 0,
+                  pointerEvents:
+                    quantities[item.shortName] > 0 ? "auto" : "none",
+                }}
+              >
+                <Button
+                  type="button"
+                  onClick={() => clearQuantity(item.shortName)}
+                  variant="outline"
+                  size="icon"
+                  className="absolute top-2 right-2 h-7 w-7 rounded-full p-0"
+                  aria-label="Clear quantity"
+                >
+                  <X className="size-4" />
+                </Button>
               </div>
             </div>
           ))}
@@ -381,76 +401,78 @@ export default function SimpleCalculator() {
 
           {/* Total resources */}
           <div className="md:w-1/2 xl:w-2/3">
-            <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
-              Total Base Resources
-              <Badge variant="outline" className="ml-1">
-                All Items
-              </Badge>
-            </h3>
-            <div className="grid auto-rows-fr grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
-              {Object.entries(totalResources)
-                .sort((a, b) => b[1] - a[1])
-                .map(([resourceName, amount]) => {
-                  const itemDetails = getItemDetails(resourceName);
+            <div className="md:sticky md:top-[76px]">
+              <h3 className="mb-3 flex items-center gap-2 text-lg font-semibold">
+                Total Base Resources
+                <Badge variant="outline" className="ml-1">
+                  All Items
+                </Badge>
+              </h3>
+              <div className="grid auto-rows-fr grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-1 xl:grid-cols-2">
+                {Object.entries(totalResources)
+                  .sort((a, b) => b[1] - a[1])
+                  .map(([resourceName, amount]) => {
+                    const itemDetails = getItemDetails(resourceName);
 
-                  if (!itemDetails) return null;
+                    if (!itemDetails) return null;
 
-                  const isSulfur = resourceName === "sulfur";
-                  const isMetal = resourceName === "metal.fragments";
-                  const isLowGrade = resourceName === "lowgradefuel";
+                    const isSulfur = resourceName === "sulfur";
+                    const isMetal = resourceName === "metal.fragments";
+                    const isLowGrade = resourceName === "lowgradefuel";
 
-                  const sulfurNodesRequired = isSulfur
-                    ? Math.ceil(amount / 300)
-                    : null;
-                  const metalNodesRequired = isMetal
-                    ? Math.ceil(amount / 600)
-                    : null;
-                  const crudeOilRequired = isLowGrade
-                    ? Math.ceil(amount / 3)
-                    : null;
+                    const sulfurNodesRequired = isSulfur
+                      ? Math.ceil(amount / 300)
+                      : null;
+                    const metalNodesRequired = isMetal
+                      ? Math.ceil(amount / 600)
+                      : null;
+                    const crudeOilRequired = isLowGrade
+                      ? Math.ceil(amount / 3)
+                      : null;
 
-                  return (
-                    <div
-                      key={resourceName}
-                      className="flex items-center gap-2 rounded-md border bg-muted/20 p-2.5"
-                    >
-                      <div className="relative h-10 w-10 flex-shrink-0">
-                        <Image
-                          src={itemDetails.iconUrl}
-                          alt={itemDetails.displayName || resourceName}
-                          width={40}
-                          height={40}
-                          className="object-contain"
-                        />
-                      </div>
-                      <div>
-                        <p className="mb-0.5 text-sm font-medium">
-                          {itemDetails.displayName || resourceName}
-                        </p>
-                        <div className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
-                          {amount.toLocaleString()}
-                          {isSulfur && (
-                            <span>
-                              ({sulfurNodesRequired?.toLocaleString()} node
-                              {sulfurNodesRequired !== 1 ? "s" : ""})
-                            </span>
-                          )}
-                          {isMetal && (
-                            <span>
-                              ({metalNodesRequired?.toLocaleString()} node
-                              {metalNodesRequired !== 1 ? "s" : ""})
-                            </span>
-                          )}
-                          {isLowGrade && (
-                            <span>
-                              ({crudeOilRequired?.toLocaleString()} crude oil)
-                            </span>
-                          )}
+                    return (
+                      <div
+                        key={resourceName}
+                        className="flex items-center gap-2 rounded-md border bg-muted/20 p-2.5"
+                      >
+                        <div className="relative h-10 w-10 flex-shrink-0">
+                          <Image
+                            src={itemDetails.iconUrl}
+                            alt={itemDetails.displayName || resourceName}
+                            width={40}
+                            height={40}
+                            className="object-contain"
+                          />
+                        </div>
+                        <div>
+                          <p className="mb-0.5 text-sm font-medium">
+                            {itemDetails.displayName || resourceName}
+                          </p>
+                          <div className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
+                            {amount.toLocaleString()}
+                            {isSulfur && (
+                              <span>
+                                ({sulfurNodesRequired?.toLocaleString()} node
+                                {sulfurNodesRequired !== 1 ? "s" : ""})
+                              </span>
+                            )}
+                            {isMetal && (
+                              <span>
+                                ({metalNodesRequired?.toLocaleString()} node
+                                {metalNodesRequired !== 1 ? "s" : ""})
+                              </span>
+                            )}
+                            {isLowGrade && (
+                              <span>
+                                ({crudeOilRequired?.toLocaleString()} crude oil)
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+              </div>
             </div>
           </div>
         </div>

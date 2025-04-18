@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { SiGithub } from "@icons-pack/react-simple-icons";
+import { SiGithub, SiSteam } from "@icons-pack/react-simple-icons";
 import Link from "next/link";
 
 export default function Footer() {
@@ -20,13 +20,22 @@ export default function Footer() {
             </Link>{" "}
             is not affiliated with Facepunch Studios
           </p>
-          <Link
-            className={buttonVariants({ variant: "outline", size: "icon" })}
-            href="https://github.com/joepetrillo"
-            target="_blank"
-          >
-            <SiGithub />
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              className={buttonVariants({ variant: "outline", size: "icon" })}
+              href="https://steamcommunity.com/id/perfect119"
+              target="_blank"
+            >
+              <SiSteam />
+            </Link>
+            <Link
+              className={buttonVariants({ variant: "outline", size: "icon" })}
+              href="https://github.com/joepetrillo/rust.directory"
+              target="_blank"
+            >
+              <SiGithub />
+            </Link>
+          </div>
         </div>
       </div>
     </footer>
