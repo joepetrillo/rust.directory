@@ -9,7 +9,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getItemDetails, selectableItems } from "@/lib/item-utils";
+import { getItemDetails, selectableExplosives } from "@/lib/item-utils";
 import { cn, roundToIncrement } from "@/lib/utils";
 import {
   BreakdownMap,
@@ -206,7 +206,7 @@ export default function SimpleCalculator() {
 
         {/* Boom selection */}
         <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4">
-          {selectableItems.map((item) => (
+          {selectableExplosives.map((item) => (
             <div
               key={item.shortName}
               className={cn(

@@ -16,4 +16,4 @@ export function getItemDetails(shortName: string) {
 /**
  * Get all selectable items
  */
-export const selectableItems = explosiveItems.filter((i) => i.selectable);
+export const selectableExplosives = explosiveItems.filter((i) => i.selectable);
