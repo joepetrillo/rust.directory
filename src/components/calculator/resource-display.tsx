@@ -1,4 +1,4 @@
-import { getItemDetails } from "@/lib/item-utils";
+import { getItemDetails } from "@/lib/utils";
 import Image from "next/image";
 import { memo } from "react";
 

@@ -9,8 +9,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getItemDetails, selectableExplosives } from "@/lib/item-utils";
-import { cn, roundToIncrement } from "@/lib/utils";
+import { explosiveItems } from "@/constants/typed-consts";
+import { cn, getItemDetails, roundToIncrement } from "@/lib/utils";
 import {
   BreakdownMap,
   CraftingNode,
@@ -23,6 +23,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { CraftingTreeNode } from "./crafting-tree-node";
 import { ResourceDisplay } from "./resource-display";
+
+const selectableExplosives = explosiveItems.filter((i) => i.selectable);
 
 export default function SimpleCalculator() {
   const [quantities, setQuantities] = useState<Quantities>({});
