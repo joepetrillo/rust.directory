@@ -121,7 +121,7 @@
         "sulfur": 5
       },
       "selectable": true,
-      "craftingIncrement": 3
+      "craftingIncrement": 2
     },
     {
       "shortName": "explosive.satchel",

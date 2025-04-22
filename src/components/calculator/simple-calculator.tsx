@@ -134,10 +134,18 @@ export default function SimpleCalculator() {
 
   const handleQuantityChange = useCallback(
     (shortName: string, increment: number, value: string) => {
-      // Only allow digits
-      if (!/^[0-9]*$/.test(value)) return;
+      if (!/[0-9]/.test(value)) return;
 
-      const numValue = parseInt(value);
+      if (value === "") {
+        setQuantities((prev) => ({
+          ...prev,
+          [shortName]: 0,
+        }));
+        return;
+      }
+
+      // Convert to number directly - faster than parseInt
+      const numValue = Number(value);
       const roundedValue = roundToIncrement(numValue, increment);
       const clampedValue = Math.min(roundedValue, 9999);
 
