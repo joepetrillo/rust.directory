@@ -134,8 +134,6 @@ export default function SimpleCalculator() {
 
   const handleQuantityChange = useCallback(
     (shortName: string, increment: number, value: string) => {
-      if (!/[0-9]/.test(value)) return;
-
       if (value === "") {
         setQuantities((prev) => ({
           ...prev,
@@ -143,6 +141,8 @@ export default function SimpleCalculator() {
         }));
         return;
       }
+
+      if (!/[0-9]/.test(value)) return;
 
       // Convert to number directly - faster than parseInt
       const numValue = Number(value);
