@@ -1,24 +1,16 @@
 "use client";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function CalculatorLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const pathname = usePathname();
   const currentTab = pathname.includes("advanced") ? "advanced" : "simple";
-
-  const handleTabChange = (value: string) => {
-    if (value === "simple") {
-      router.replace("/calculator/simple");
-    } else {
-      router.replace("/calculator/advanced");
-    }
-  };
 
   return (
     <div>
@@ -28,10 +20,14 @@ export default function CalculatorLayout({
         advanced mode. All calculations are based on vanilla game values.
       </p>
 
-      <Tabs value={currentTab} onValueChange={handleTabChange}>
+      <Tabs value={currentTab}>
         <TabsList className="mb-4">
-          <TabsTrigger value="simple">Simple</TabsTrigger>
-          <TabsTrigger value="advanced">Advanced</TabsTrigger>
+          <TabsTrigger value="simple" asChild>
+            <Link href="/calculator/simple">Simple</Link>
+          </TabsTrigger>
+          <TabsTrigger value="advanced" asChild>
+            <Link href="/calculator/advanced">Advanced</Link>
+          </TabsTrigger>
         </TabsList>
       </Tabs>
 
