@@ -1,3 +1,4 @@
+import AuthStatus from "@/components/auth-status";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -23,29 +24,32 @@ export default function Header() {
           >
             Rust Directory
           </Link>
-          <Drawer direction="bottom">
-            <DrawerTrigger asChild>
-              <Button variant="outline" size="icon">
-                <MenuIcon />
-              </Button>
-            </DrawerTrigger>
-            <DrawerContent>
-              <div className="mx-auto w-full max-w-3xl">
-                <DrawerHeader>
-                  <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-                  <DrawerDescription>
-                    This action cannot be undone.
-                  </DrawerDescription>
-                </DrawerHeader>
-                <DrawerFooter>
-                  <Button>Submit</Button>
-                  <DrawerClose asChild>
-                    <Button variant="outline">Cancel</Button>
-                  </DrawerClose>
-                </DrawerFooter>
-              </div>
-            </DrawerContent>
-          </Drawer>
+          <div className="flex items-center gap-4">
+            <AuthStatus />
+            <Drawer direction="bottom">
+              <DrawerTrigger asChild>
+                <Button variant="outline" size="icon">
+                  <MenuIcon />
+                </Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <div className="mx-auto w-full max-w-3xl">
+                  <DrawerHeader>
+                    <DrawerTitle>Are you absolutely sure?</DrawerTitle>
+                    <DrawerDescription>
+                      This action cannot be undone.
+                    </DrawerDescription>
+                  </DrawerHeader>
+                  <DrawerFooter>
+                    <Button>Submit</Button>
+                    <DrawerClose asChild>
+                      <Button variant="outline">Cancel</Button>
+                    </DrawerClose>
+                  </DrawerFooter>
+                </div>
+              </DrawerContent>
+            </Drawer>
+          </div>
         </nav>
       </div>
     </header>

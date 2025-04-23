@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
       {
         hostname: "cdn.rusthelp.com",
       },
+      {
+        hostname: "avatars.steamstatic.com",
+      },
     ],
   },
 };

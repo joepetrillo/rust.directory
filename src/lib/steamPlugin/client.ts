@@ -1,9 +1,9 @@
-import type { BetterAuthClientPlugin } from "better-auth";
-import type { steamAuth } from ".";
+import type { BetterAuthClientPlugin } from "better-auth/client";
+import type { steam } from "./index";
 
-export const genericOAuthClient = () => {
+export const steamClient = () => {
   return {
-    id: "steam-auth-client",
-    $InferServerPlugin: {} as ReturnType<typeof steamAuth>,
+    id: "steam-client",
+    $InferServerPlugin: {} as ReturnType<typeof steam>,
   } satisfies BetterAuthClientPlugin;
 };
