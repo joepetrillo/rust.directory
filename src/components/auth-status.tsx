@@ -16,7 +16,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AuthStatus() {
-  const [isMounted, setIsMounted] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { data: session, isPending, error } = authClient.useSession();
@@ -24,7 +23,17 @@ export default function AuthStatus() {
   const pathname = usePathname();
 
   useEffect(() => {
-    setIsMounted(true);
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        setIsLoading(false);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () =>
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+  }, []);
+
+  useEffect(() => {
     if (!isPending) {
       setInitialLoad(false);
     }
@@ -57,10 +66,6 @@ export default function AuthStatus() {
       console.error("Sign out failed:", error);
       setIsLoading(false);
     }
-  }
-
-  if (!isMounted) {
-    return null;
   }
 
   if (isPending && initialLoad) {
