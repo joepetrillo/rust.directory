@@ -13,25 +13,14 @@ import {
 import { authClient } from "@/lib/auth-client";
 import { ChevronDown, LogOut } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 
 export default function AuthStatus() {
   const [initialLoad, setInitialLoad] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
   const { data: session, isPending, error } = authClient.useSession();
   const router = useRouter();
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        setIsLoading(false);
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-    return () =>
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-  }, []);
+  const [isNavPending, startTransition] = useTransition();
 
   useEffect(() => {
     if (!isPending) {
@@ -39,33 +28,24 @@ export default function AuthStatus() {
     }
   }, [isPending]);
 
-  async function handleSteamLogin() {
-    try {
-      setIsLoading(true);
-      const { data } = await authClient.signIn.steam({
-        query: {
-          returnTo: pathname || "/",
-        },
-      });
+  const sessionStatus = session ? "authenticated" : "unauthenticated";
 
-      if (data && "redirect" in data) {
+  async function handleSteamLogin() {
+    const { data } = await authClient.signIn.steam({
+      query: {
+        returnTo: pathname || "/",
+      },
+    });
+
+    if (data && "redirect" in data) {
+      startTransition(() => {
         router.push(data.redirect);
-      }
-    } catch (error) {
-      console.error("Steam sign-in initiation failed:", error);
-      setIsLoading(false);
+      });
     }
   }
 
   async function handleSignOut() {
-    try {
-      setIsLoading(true);
-      await authClient.signOut();
-      setIsLoading(false);
-    } catch (error) {
-      console.error("Sign out failed:", error);
-      setIsLoading(false);
-    }
+    await authClient.signOut();
   }
 
   if (isPending && initialLoad) {
@@ -75,8 +55,6 @@ export default function AuthStatus() {
   if (error) {
     throw error;
   }
-
-  const sessionStatus = session ? "authenticated" : "unauthenticated";
 
   if (!session) {
     return (
@@ -88,7 +66,7 @@ export default function AuthStatus() {
           onClick={handleSteamLogin}
           size="sm"
           variant="outline"
-          loading={isLoading}
+          loading={isNavPending}
           className="cursor-pointer"
         >
           Sign in with Steam
@@ -150,7 +128,7 @@ export default function AuthStatus() {
             </div>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut} disabled={isLoading}>
+          <DropdownMenuItem onClick={handleSignOut} disabled={isNavPending}>
             <LogOut className="mr-2 size-4" />
             Sign out
           </DropdownMenuItem>
