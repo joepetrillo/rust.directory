@@ -73,6 +73,9 @@ export const steam = (options?: SteamPluginOptions) => {
           ctx.setCookie("steam_auth_return_to", returnTo, {
             path: "/",
             maxAge: 10 * 60, // 10 minutes in seconds
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            httpOnly: true,
           });
 
           try {
@@ -128,6 +131,9 @@ export const steam = (options?: SteamPluginOptions) => {
             path: "/",
             maxAge: 0,
             expires: new Date(0),
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "lax",
+            httpOnly: true,
           });
 
           try {

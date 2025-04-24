@@ -28,6 +28,10 @@ export default function AuthStatus() {
     }
   }, [isPending]);
 
+  if (error) {
+    throw error;
+  }
+
   const sessionStatus = session ? "authenticated" : "unauthenticated";
 
   async function handleSteamLogin() {
@@ -37,7 +41,7 @@ export default function AuthStatus() {
       },
     });
 
-    if (data && "redirect" in data) {
+    if (data) {
       startTransition(() => {
         router.push(data.redirect);
       });
@@ -50,10 +54,6 @@ export default function AuthStatus() {
 
   if (isPending && initialLoad) {
     return null;
-  }
-
-  if (error) {
-    throw error;
   }
 
   if (!session) {

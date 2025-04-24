@@ -23,10 +23,14 @@ export default function CalculatorLayout({
       <Tabs value={currentTab}>
         <TabsList className="mb-4">
           <TabsTrigger value="simple" asChild>
-            <Link href="/calculator/simple">Simple</Link>
+            <Link href="/calculator/simple" replace>
+              Simple
+            </Link>
           </TabsTrigger>
           <TabsTrigger value="advanced" asChild>
-            <Link href="/calculator/advanced">Advanced</Link>
+            <Link href="/calculator/advanced" replace>
+              Advanced
+            </Link>
           </TabsTrigger>
         </TabsList>
       </Tabs>
