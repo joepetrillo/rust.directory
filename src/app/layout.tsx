@@ -40,6 +40,8 @@ export default function RootLayout({
         <Script
           src="//unpkg.com/react-scan/dist/auto.global.js"
           crossOrigin="anonymous"
+          strategy="beforeInteractive"
+          async
         />
       </head>
       <body
