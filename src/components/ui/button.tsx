@@ -28,7 +28,7 @@ const buttonVariants = cva(
         icon: "size-9",
       },
       loading: {
-        true: "text-transparent",
+        true: "text-transparent select-none",
       },
     },
     defaultVariants: {
