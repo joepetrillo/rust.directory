@@ -37,12 +37,14 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head>
-        <Script
-          src="//unpkg.com/react-scan/dist/auto.global.js"
-          crossOrigin="anonymous"
-          strategy="beforeInteractive"
-          async
-        />
+        {process.env.NODE_ENV === "development" && (
+          <Script
+            src="//unpkg.com/react-scan/dist/auto.global.js"
+            crossOrigin="anonymous"
+            strategy="beforeInteractive"
+            async
+          />
+        )}
       </head>
       <body
         className={`${mori.variable} ${editorial.variable} ${geistMono.variable} overflow-y-scroll font-sans antialiased`}
