@@ -2456,13 +2456,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@t3-oss/env-core@npm:0.12.0":
-  version: 0.12.0
-  resolution: "@t3-oss/env-core@npm:0.12.0"
+"@t3-oss/env-core@npm:0.13.0":
+  version: 0.13.0
+  resolution: "@t3-oss/env-core@npm:0.13.0"
   peerDependencies:
+    arktype: ^2.1.0
     typescript: ">=5.0.0"
     valibot: ^1.0.0-beta.7 || ^1.0.0
-    zod: ^3.24.0
+    zod: ^3.24.0 || ^4.0.0-beta.0
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -2470,19 +2471,19 @@ __metadata:
       optional: true
     zod:
       optional: true
-  checksum: 10c0/b79d2c291b8996b008ef77fa9b3afb8fd7c4c59e271b65039a52a504a9cdb7492ec88b414e6b5691dc4c2c93077abfac85a5cea00dcfdd083ad94912efc5464b
+  checksum: 10c0/4e5c23fe256f10826d737dad83e82e9969204a7c23c860fa8e1158b26967f5539c627853c4a4daefb2b38b4296ae8d07536d31ed9276df1d8ef2baa61affd6e7
   languageName: node
   linkType: hard
 
-"@t3-oss/env-nextjs@npm:^0.12.0":
-  version: 0.12.0
-  resolution: "@t3-oss/env-nextjs@npm:0.12.0"
+"@t3-oss/env-nextjs@npm:^0.13.0":
+  version: 0.13.0
+  resolution: "@t3-oss/env-nextjs@npm:0.13.0"
   dependencies:
-    "@t3-oss/env-core": "npm:0.12.0"
+    "@t3-oss/env-core": "npm:0.13.0"
   peerDependencies:
     typescript: ">=5.0.0"
     valibot: ^1.0.0-beta.7 || ^1.0.0
-    zod: ^3.24.0
+    zod: ^3.24.0 || ^4.0.0-beta.0
   peerDependenciesMeta:
     typescript:
       optional: true
@@ -2490,7 +2491,7 @@ __metadata:
       optional: true
     zod:
       optional: true
-  checksum: 10c0/f39cae67353c09818b13836cf1f0ab8186058f6fd2f5e8983f43c8601f1cd6948d3a159a2f166420049080ca56e73ba69e483229f21593aba0d6d8f4cf79ef32
+  checksum: 10c0/5eb3f08f654b02da62c29d301f12d2687797e652a8f169666ec7f97561d135aeacd73bd6fdd7488717194063dc0a1d80b8cdd654adc2cff7ceaec1446c347958
   languageName: node
   linkType: hard
 
@@ -2754,16 +2755,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^22.14.1":
-  version: 22.14.1
-  resolution: "@types/node@npm:22.14.1"
+"@types/node@npm:^22.15.2":
+  version: 22.15.2
+  resolution: "@types/node@npm:22.15.2"
   dependencies:
     undici-types: "npm:~6.21.0"
-  checksum: 10c0/d49c4d00403b1c2348cf0701b505fd636d80aabe18102105998dc62fdd36dcaf911e73c7a868c48c21c1022b825c67b475b65b1222d84b704d8244d152bb7f86
+  checksum: 10c0/39da31d5fc63b14fabd217bb8a921c4a7fc3d99f233440209f9fc2d5d736e8773f7efc65223e2fd0e8db8390b0baab9c0cd2e951c2ece8b237f07313ab3cf295
   languageName: node
   linkType: hard
 
-"@types/openid@npm:^2":
+"@types/openid@npm:^2.0.5":
   version: 2.0.5
   resolution: "@types/openid@npm:2.0.5"
   checksum: 10c0/883b6b09c0c229edb501d967480f59a80b9d079e196b1f153c91b5e6a95f749ab25d923cd47dfcfa5c39bdbc32a0057e54f6efb344404f5d0189a833e7fe633c
@@ -3637,9 +3638,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"drizzle-orm@npm:^0.42.0":
-  version: 0.42.0
-  resolution: "drizzle-orm@npm:0.42.0"
+"drizzle-orm@npm:^0.43.1":
+  version: 0.43.1
+  resolution: "drizzle-orm@npm:0.43.1"
   peerDependencies:
     "@aws-sdk/client-rds-data": ">=3"
     "@cloudflare/workers-types": ">=4"
@@ -3725,7 +3726,7 @@ __metadata:
       optional: true
     sqlite3:
       optional: true
-  checksum: 10c0/9992b8dfa830e41cded7c47e55de4dec282154fc6c5dbe74146ee1679145fd7365dce99ea1fafb3a72284fe6061c360718e91c44301a2ff3076eebae10b24bf8
+  checksum: 10c0/1d0eeb67f348c0697cc7a20b6316f88aa0d15e9c8251b744959fdba0fe407781d88e73d41ebddc95201f72236cc1601116c5beb0d9e2d524b736c359e1bd51d6
   languageName: node
   linkType: hard
 
@@ -5884,12 +5885,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:^7.56.0":
-  version: 7.56.0
-  resolution: "react-hook-form@npm:7.56.0"
+"react-hook-form@npm:^7.56.1":
+  version: 7.56.1
+  resolution: "react-hook-form@npm:7.56.1"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/707b5939e5aede9deafd781c832bc6eed4086bb64f39697b038b702b6698b367fac0aa8dc4e2ed3f6d235a37b991af8d3c0d4968eae82529946a30558a10967d
+  checksum: 10c0/26eafd54bf47167628e34c2f22ea27ea7bdd5b4231a56af5be31ccedfb2a721708b308026ea4a17f2fb15c7b5fff83c0feb4acc7aa07bd6faa8506e917810cab
   languageName: node
   linkType: hard
 
@@ -6191,10 +6192,10 @@ __metadata:
     "@radix-ui/react-toggle": "npm:^1.1.6"
     "@radix-ui/react-toggle-group": "npm:^1.1.7"
     "@radix-ui/react-tooltip": "npm:^1.2.4"
-    "@t3-oss/env-nextjs": "npm:^0.12.0"
+    "@t3-oss/env-nextjs": "npm:^0.13.0"
     "@tailwindcss/postcss": "npm:^4.1.4"
-    "@types/node": "npm:^22.14.1"
-    "@types/openid": "npm:^2"
+    "@types/node": "npm:^22.15.2"
+    "@types/openid": "npm:^2.0.5"
     "@types/react": "npm:19.1.2"
     "@types/react-dom": "npm:19.1.2"
     better-auth: "npm:^1.2.7"
@@ -6203,7 +6204,7 @@ __metadata:
     cmdk: "npm:^1.1.1"
     date-fns: "npm:^4.1.0"
     drizzle-kit: "npm:^0.31.0"
-    drizzle-orm: "npm:^0.42.0"
+    drizzle-orm: "npm:^0.43.1"
     embla-carousel-react: "npm:^8.6.0"
     eslint: "npm:^9.25.1"
     eslint-config-next: "npm:15.3.1"
@@ -6220,7 +6221,7 @@ __metadata:
     react: "npm:19.1.0"
     react-day-picker: "npm:8.10.1"
     react-dom: "npm:19.1.0"
-    react-hook-form: "npm:^7.56.0"
+    react-hook-form: "npm:^7.56.1"
     react-resizable-panels: "npm:^2.1.8"
     recharts: "npm:^2.15.3"
     sonner: "npm:^2.0.3"
