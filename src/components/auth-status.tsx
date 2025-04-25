@@ -21,6 +21,7 @@ export default function AuthStatus() {
   const router = useRouter();
   const pathname = usePathname();
   const [isNavPending, startTransition] = useTransition();
+  const [isSteamLoginPending, setIsSteamLoginPending] = useState(false);
 
   useEffect(() => {
     if (!isPending) {
@@ -35,6 +36,7 @@ export default function AuthStatus() {
   const sessionStatus = session ? "authenticated" : "unauthenticated";
 
   async function handleSteamLogin() {
+    setIsSteamLoginPending(true);
     const { data } = await authClient.signIn.steam({
       query: {
         returnTo: pathname || "/",
@@ -46,6 +48,7 @@ export default function AuthStatus() {
         router.push(data.redirect);
       });
     }
+    setIsSteamLoginPending(false);
   }
 
   async function handleSignOut() {
@@ -66,7 +69,7 @@ export default function AuthStatus() {
           onClick={handleSteamLogin}
           size="sm"
           variant="outline"
-          loading={isNavPending}
+          loading={isNavPending || isSteamLoginPending}
           className="cursor-pointer"
         >
           Sign in with Steam
