@@ -69,7 +69,7 @@ export default function AuthStatus() {
           onClick={handleSteamLogin}
           size="sm"
           variant="outline"
-          loading={isNavPending || isSteamLoginPending}
+          loading={isSteamLoginPending || isNavPending}
           className="cursor-pointer"
         >
           Sign in with Steam
