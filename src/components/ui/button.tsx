@@ -27,9 +27,6 @@ const buttonVariants = cva(
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
       },
-      loading: {
-        true: "text-transparent select-none",
-      },
     },
     defaultVariants: {
       variant: "default",
@@ -55,7 +52,10 @@ function Button({
   return (
     <Comp
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, className, loading }))}
+      className={cn(
+        buttonVariants({ variant, size, className }),
+        loading && "text-transparent select-none",
+      )}
       disabled={loading || props.disabled}
       {...props}
     >
