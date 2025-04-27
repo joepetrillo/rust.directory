@@ -38,7 +38,7 @@ export const steam = (options?: SteamPluginOptions) => {
   return {
     id: "steam",
     init(ctx) {
-      const callbackUrl = `${ctx.baseURL}/callback/steam`;
+      const callbackUrl = `${ctx.baseURL}/steam/callback`;
 
       relyingParty = new openid.RelyingParty(
         callbackUrl,
@@ -72,7 +72,7 @@ export const steam = (options?: SteamPluginOptions) => {
           // Store the returnTo URL in a cookie
           ctx.setCookie("steam_auth_return_to", returnTo, {
             path: "/",
-            maxAge: 10 * 60, // 10 minutes in seconds
+            maxAge: 10 * 60, // 10 minutes
             sameSite: "lax",
             httpOnly: true,
           });
@@ -106,8 +106,8 @@ export const steam = (options?: SteamPluginOptions) => {
           }
         },
       ),
-      callbackSteam: createAuthEndpoint(
-        "/callback/steam",
+      steamCallback: createAuthEndpoint(
+        "/steam/callback",
         {
           method: "GET",
           metadata: {
