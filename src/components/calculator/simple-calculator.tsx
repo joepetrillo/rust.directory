@@ -460,23 +460,21 @@ export default function SimpleCalculator() {
                           </p>
                           <div className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
                             {amount.toLocaleString()}
-                            {isSulfur && (
+                            {isSulfur ? (
                               <span>
                                 ({sulfurNodesRequired?.toLocaleString()} node
                                 {sulfurNodesRequired !== 1 ? "s" : ""})
                               </span>
-                            )}
-                            {isMetal && (
+                            ) : isMetal ? (
                               <span>
                                 ({metalNodesRequired?.toLocaleString()} node
                                 {metalNodesRequired !== 1 ? "s" : ""})
                               </span>
-                            )}
-                            {isLowGrade && (
+                            ) : isLowGrade ? (
                               <span>
                                 ({crudeOilRequired?.toLocaleString()} crude oil)
                               </span>
-                            )}
+                            ) : null}
                           </div>
                         </div>
                       </div>
