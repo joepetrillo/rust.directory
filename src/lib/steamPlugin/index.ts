@@ -1,18 +1,26 @@
 import type { BetterAuthPlugin, User } from "better-auth";
-import { APIError, createAuthEndpoint } from "better-auth/api";
+import {
+  APIError,
+  createAuthEndpoint,
+  getSessionFromCtx,
+} from "better-auth/api";
 import { setSessionCookie } from "better-auth/cookies";
 import openid from "openid";
 import { z } from "zod";
 
 const STEAM_ERROR_CODES = {
-  STEAM_VERIFICATION_FAILED: "Steam verification failed",
-  STEAM_ID_MISSING: "Could not extract Steam ID",
-  USER_INFO_FETCH_FAILED: "Failed to fetch user details from Steam API",
-  API_KEY_REQUIRED: "Steam API Key is required to fetch user details",
+  INIT_FAILED: "Failed to initiate Steam authentication",
+  ALREADY_AUTHENTICATED: "User is already authenticated",
 } as const;
 
 // Steam's OpenID Provider endpoint
 const STEAM_PROVIDER_URL = "https://steamcommunity.com/openid";
+
+function getErrorCodeKey(value: string) {
+  return Object.keys(STEAM_ERROR_CODES).find(
+    (key) => STEAM_ERROR_CODES[key as keyof typeof STEAM_ERROR_CODES] === value,
+  );
+}
 
 interface SteamPluginOptions {
   /**
@@ -43,7 +51,7 @@ export const steam = (options?: SteamPluginOptions) => {
       relyingParty = new openid.RelyingParty(
         callbackUrl,
         null,
-        true, // Always use stateless mode for Steam
+        true, // always use stateless mode for Steam
         false,
         [],
       );
@@ -60,48 +68,62 @@ export const steam = (options?: SteamPluginOptions) => {
             openapi: {
               description: "Initiate Steam OpenID sign-in",
               responses: {
-                302: { description: "Redirect to Steam for authentication" },
-                400: { description: "Authentication failed to initiate" },
+                200: { description: "Continue to Steam for authentication" },
+                400: { description: "Authentication flow with Steam failed" },
               },
             },
           },
         },
         async (ctx) => {
-          const returnTo = ctx.query.returnTo ?? "/";
+          // check if the user is already authenticated
+          const session = await getSessionFromCtx(ctx);
 
-          // Store the returnTo URL in a cookie
-          ctx.setCookie("steam_auth_return_to", returnTo, {
+          if (session) {
+            throw new APIError("BAD_REQUEST", {
+              code: getErrorCodeKey(STEAM_ERROR_CODES.ALREADY_AUTHENTICATED),
+              message: STEAM_ERROR_CODES.ALREADY_AUTHENTICATED,
+            });
+          }
+
+          // by default, redirect to the root if no 'returnTo' query param is provided
+          const returnTo = ctx.query.returnTo || "/";
+
+          // store the returnTo URL in a cookie
+          ctx.setCookie(`steam_auth_return_to`, returnTo, {
             path: "/",
             maxAge: 10 * 60, // 10 minutes
             sameSite: "lax",
             httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
           });
 
           try {
             const authUrl = await new Promise<string>((resolve, reject) => {
               relyingParty.authenticate(
                 STEAM_PROVIDER_URL,
-                false, // Steam does not support immediate mode
+                false, // steam does not support immediate mode
                 (error, authUrl) => {
                   if (error) {
                     return reject(
-                      new Error(`Authentication failed: ${error.message}`),
+                      new Error(
+                        `Steam authentication failed: ${error.message}`,
+                      ),
                     );
                   }
                   if (!authUrl) {
-                    return reject(new Error("Authentication failed"));
+                    return reject(new Error("Steam authentication failed"));
                   }
                   resolve(authUrl);
                 },
               );
             });
-            return ctx.json({ redirect: authUrl });
+            return ctx.json({ redirect: true, url: authUrl });
           } catch (error) {
-            ctx.context.logger.error("Steam sign-in initiation failed", error);
+            ctx.context.logger.error("Steam sign-in failed", error);
             throw new APIError("BAD_REQUEST", {
+              code: getErrorCodeKey(STEAM_ERROR_CODES.INIT_FAILED),
               message:
-                (error as Error).message ||
-                "Failed to initiate Steam authentication",
+                (error as Error).message || STEAM_ERROR_CODES.INIT_FAILED,
             });
           }
         },
@@ -116,22 +138,23 @@ export const steam = (options?: SteamPluginOptions) => {
               responses: {
                 302: {
                   description:
-                    "Redirect to stored returnTo URL on success or root path with error on failure",
+                    "Redirect to the returnTo URL on success or the error page on failure",
                 },
               },
             },
           },
         },
         async (ctx) => {
+          // get the returnTo URL from the cookie
           const returnTo = ctx.getCookie("steam_auth_return_to") || "/";
 
-          // Clear the cookie
+          // clear the cookie after retrieving
           ctx.setCookie("steam_auth_return_to", "", {
             path: "/",
             maxAge: 0,
-            expires: new Date(0),
             sameSite: "lax",
             httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
           });
 
           try {
@@ -144,11 +167,11 @@ export const steam = (options?: SteamPluginOptions) => {
                 (error, result) => {
                   if (error) {
                     return reject(
-                      new Error(`Verification failed: ${error.message}`),
+                      new Error(`Steam verification failed: ${error.message}`),
                     );
                   }
-                  if (!result || !result.authenticated) {
-                    return reject(new Error("Verification failed"));
+                  if (!result) {
+                    return reject(new Error("Steam verification failed"));
                   }
                   resolve(result);
                 },
@@ -156,7 +179,7 @@ export const steam = (options?: SteamPluginOptions) => {
             });
 
             if (!result.authenticated || !result.claimedIdentifier) {
-              throw new Error(STEAM_ERROR_CODES.STEAM_VERIFICATION_FAILED);
+              throw new Error("Steam verification failed");
             }
 
             // Extract SteamID64
@@ -166,7 +189,7 @@ export const steam = (options?: SteamPluginOptions) => {
             const steamId = steamIdMatch?.[1];
 
             if (!steamId) {
-              throw new Error(STEAM_ERROR_CODES.STEAM_ID_MISSING);
+              throw new Error("Could not extract Steam ID");
             }
 
             // Check if user exists
@@ -179,74 +202,71 @@ export const steam = (options?: SteamPluginOptions) => {
             let user: User;
             let session;
 
-            if (dbUser?.user) {
+            // If the user exists and we have an API key, update the user's info if necessary
+            if (dbUser && apiKey) {
               user = dbUser.user;
 
               // Update account info
-              if (apiKey) {
-                const userInfo = await getSteamUserInfo(apiKey, steamId);
-                const updateData: { name?: string; image?: string } = {};
+              const userInfo = await getSteamUserInfo(apiKey, steamId);
+              const updateData: { name?: string; image?: string } = {};
 
-                // Collect all changes in one object
-                if (
-                  user.name !== userInfo.personaname &&
-                  userInfo.personaname
-                ) {
-                  updateData.name = userInfo.personaname;
-                }
-                if (user.image !== userInfo.avatarfull && userInfo.avatarfull) {
-                  updateData.image = userInfo.avatarfull;
-                }
+              // Collect all changes in one object
+              if (user.name !== userInfo.personaname && userInfo.personaname) {
+                updateData.name = userInfo.personaname;
+              }
+              if (user.image !== userInfo.avatarfull && userInfo.avatarfull) {
+                updateData.image = userInfo.avatarfull;
+              }
 
-                // Only make a DB call if we have changes
-                if (Object.keys(updateData).length > 0) {
-                  await ctx.context.internalAdapter.updateUser(
-                    user.id,
-                    updateData,
-                  );
-                }
+              // Only make a DB call if we have changes
+              if (Object.keys(updateData).length > 0) {
+                await ctx.context.internalAdapter.updateUser(
+                  user.id,
+                  updateData,
+                );
               }
             } else {
               // User doesn't exist, create new user
               // Fetch additional user details using Steam Web API
               if (!apiKey) {
-                ctx.context.logger.warn(STEAM_ERROR_CODES.API_KEY_REQUIRED);
+                ctx.context.logger.warn(
+                  "A valid Steam API Key is required to fetch user details",
+                );
                 // Create user with minimal info if API key is missing
                 user = await ctx.context.internalAdapter.createUser(
                   {
                     name: `Steam User ${steamId.slice(-4)}`, // Placeholder name
-                    email: `steam_${steamId}@example.com`, // Placeholder email
-                    emailVerified: false, // Steam doesn't verify email via OpenID
+                    email: `steam_${steamId}@rust.directory`, // Placeholder email
                   },
                   ctx,
                 );
-              } else {
+              }
+              // API key is present, fetch user details
+              else {
                 const userInfo = await getSteamUserInfo(apiKey, steamId);
-                user = await ctx.context.internalAdapter.createUser(
-                  {
-                    name:
-                      userInfo.personaname || `Steam User ${steamId.slice(-4)}`,
-                    image: userInfo.avatarfull,
-                    email: `steam_${steamId}@example.com`, // Placeholder email
-                    emailVerified: false, // Steam doesn't verify email via OpenID
-                  },
-                  ctx,
-                );
+                const creationResult =
+                  await ctx.context.internalAdapter.createOAuthUser(
+                    {
+                      name:
+                        userInfo.personaname ||
+                        `Steam User ${steamId.slice(-4)}`,
+                      image: userInfo.avatarfull,
+                      email: `steam_${steamId}@rust.directory`, // Placeholder email
+                      emailVerified: false,
+                    },
+                    {
+                      id: steamId,
+                      providerId: "steam",
+                      accountId: steamId,
+                    },
+                    ctx,
+                  );
+                user = creationResult.user;
               }
 
               if (!user) {
                 throw new Error("Failed to create user");
               }
-
-              // Link Steam account
-              await ctx.context.internalAdapter.linkAccount(
-                {
-                  userId: user.id,
-                  providerId: "steam",
-                  accountId: steamId,
-                },
-                ctx,
-              );
             }
 
             // Create session
@@ -265,11 +285,7 @@ export const steam = (options?: SteamPluginOptions) => {
             return ctx.redirect(returnTo);
           } catch (error) {
             ctx.context.logger.error("Steam callback failed", error);
-            return ctx.redirect(
-              `/?error=${
-                (error as Error).message || "Failed to sign in with Steam"
-              }`,
-            );
+            return ctx.redirect(`/error?code=STEAM_AUTHENTICATION_FAILED`);
           }
         },
       ),
@@ -338,7 +354,8 @@ async function getSteamUserInfo(
   } catch (error) {
     if (typeof error === "object" && error !== null) {
       console.error(
-        (error as Error).message || STEAM_ERROR_CODES.USER_INFO_FETCH_FAILED,
+        (error as Error).message ||
+          "Failed to fetch user details from Steam API",
       );
     }
 

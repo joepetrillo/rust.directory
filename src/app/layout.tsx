@@ -1,9 +1,10 @@
+import ThemeSwitcher from "@/components/theme-switcher";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
-import ThemeSwitcher from "../components/theme-switcher";
+
 import "./globals.css";
 
 const mori = localFont({
@@ -37,7 +38,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <head>
-        {process.env.NODE_ENV === "development" && (
+        {process.env.NODE_ENV !== "production" && (
           <Script
             src="//unpkg.com/react-scan/dist/auto.global.js"
             crossOrigin="anonymous"

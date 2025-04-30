@@ -17,7 +17,7 @@ import { useEffect, useState, useTransition } from "react";
 
 export default function AuthStatus() {
   const [initialLoad, setInitialLoad] = useState(true);
-  const { data: session, isPending, error } = authClient.useSession();
+  const { data: session, isPending, error, refetch } = authClient.useSession();
   const router = useRouter();
   const pathname = usePathname();
   const [isNavPending, startTransition] = useTransition();
@@ -29,6 +29,8 @@ export default function AuthStatus() {
     }
   }, [isPending]);
 
+  // if there was an error loading the session
+  // TODO - handle this gracefully
   if (error) {
     throw error;
   }
@@ -37,22 +39,44 @@ export default function AuthStatus() {
 
   async function handleSteamLogin() {
     setIsSteamLoginPending(true);
-    const { data } = await authClient.signIn.steam({
-      query: {
-        returnTo: pathname || "/",
-      },
-    });
 
-    if (data) {
-      startTransition(() => {
-        router.push(data.redirect);
+    try {
+      const { data, error } = await authClient.signIn.steam({
+        query: {
+          returnTo: pathname,
+        },
       });
+
+      if (error) {
+        if (error.code === "ALREADY_AUTHENTICATED") {
+          refetch();
+        }
+      }
+
+      if (data && data.redirect) {
+        startTransition(() => {
+          if (data.url) {
+            router.push(data.url);
+          }
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsSteamLoginPending(false);
     }
-    setIsSteamLoginPending(false);
   }
 
   async function handleSignOut() {
-    await authClient.signOut();
+    try {
+      const { error } = await authClient.signOut();
+
+      if (error && error.code === "FAILED_TO_GET_SESSION") {
+        refetch();
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   if (isPending && initialLoad) {
@@ -69,7 +93,7 @@ export default function AuthStatus() {
           onClick={handleSteamLogin}
           size="sm"
           variant="outline"
-          loading={isSteamLoginPending || isNavPending}
+          loading={isSteamLoginPending || isNavPending || isPending}
           className="cursor-pointer"
         >
           Sign in with Steam
@@ -95,7 +119,7 @@ export default function AuthStatus() {
                   />
                 )}
                 <AvatarFallback>
-                  {session.user.name ? session.user.name.charAt(0) : "U"}
+                  {session.user.name || session.user.name.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <span className="hidden md:inline-block">
@@ -120,7 +144,7 @@ export default function AuthStatus() {
                   />
                 )}
                 <AvatarFallback>
-                  {session.user.name ? session.user.name.charAt(0) : "U"}
+                  {session.user.name || session.user.name.charAt(0)}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
