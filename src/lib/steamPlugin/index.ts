@@ -1,4 +1,4 @@
-import type { BetterAuthPlugin, User } from "better-auth";
+import type { BetterAuthPlugin, Session, User } from "better-auth";
 import {
   APIError,
   createAuthEndpoint,
@@ -45,6 +45,17 @@ export const steam = (options?: SteamPluginOptions) => {
 
   return {
     id: "steam",
+    schema: {
+      user: {
+        fields: {
+          steamId: {
+            type: "string",
+            unique: true,
+            required: true,
+          },
+        },
+      },
+    },
     init(ctx) {
       const callbackUrl = `${ctx.baseURL}/steam/callback`;
 
@@ -199,12 +210,16 @@ export const steam = (options?: SteamPluginOptions) => {
               "steam",
             );
 
-            let user: User;
-            let session;
+            let user: User & {
+              steamId: string;
+            };
+            let session: Session;
 
             // If the user exists and we have an API key, update the user's info if necessary
             if (dbUser && apiKey) {
-              user = dbUser.user;
+              user = dbUser.user as User & {
+                steamId: string;
+              };
 
               // Update account info
               const userInfo = await getSteamUserInfo(apiKey, steamId);
@@ -233,10 +248,13 @@ export const steam = (options?: SteamPluginOptions) => {
                   "A valid Steam API Key is required to fetch user details",
                 );
                 // Create user with minimal info if API key is missing
-                user = await ctx.context.internalAdapter.createUser(
+                user = await ctx.context.internalAdapter.createUser<{
+                  steamId: string;
+                }>(
                   {
                     name: `Steam User ${steamId.slice(-4)}`, // Placeholder name
                     email: `steam_${steamId}@rust.directory`, // Placeholder email
+                    steamId: steamId,
                   },
                   ctx,
                 );
@@ -253,9 +271,11 @@ export const steam = (options?: SteamPluginOptions) => {
                       image: userInfo.avatarfull,
                       email: `steam_${steamId}@rust.directory`, // Placeholder email
                       emailVerified: false,
+                      steamId: steamId,
+                    } as User & {
+                      steamId: string;
                     },
                     {
-                      id: steamId,
                       providerId: "steam",
                       accountId: steamId,
                     },

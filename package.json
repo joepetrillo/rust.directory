@@ -8,14 +8,15 @@
     "start": "next start",
     "lint": "next lint",
     "update-ui": "npx shadcn@latest add -a -y -o",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:pull": "drizzle-kit pull",
-    "db:export": "drizzle-kit export",
-    "db:check": "drizzle-kit check",
-    "db:up": "drizzle-kit up",
-    "db:studio": "drizzle-kit studio"
+    "db:generate": "drizzle-kit generate --config=./drizzle-kit.config.ts",
+    "db:migrate": "drizzle-kit migrate --config=./drizzle-kit.config.ts",
+    "db:push": "drizzle-kit push --config=./drizzle-kit.config.ts",
+    "db:pull": "drizzle-kit pull --config=./drizzle-kit.config.ts",
+    "db:export": "drizzle-kit export --config=./drizzle-kit.config.ts",
+    "db:check": "drizzle-kit check --config=./drizzle-kit.config.ts",
+    "db:up": "drizzle-kit up --config=./drizzle-kit.config.ts",
+    "db:studio": "drizzle-kit studio --config=./drizzle-kit.config.ts",
+    "better-auth:generate": "npx @better-auth/cli@latest generate --output=./src/db/schema/auth-schema.ts --y"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
