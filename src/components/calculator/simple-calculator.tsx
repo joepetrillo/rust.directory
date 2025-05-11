@@ -233,7 +233,7 @@ export default function SimpleCalculator() {
                 transitionDelay: quantities[item.shortName] > 0 ? "0ms" : "",
               }}
               className={cn(
-                "relative z-0 p-3 outline outline-offset-0 outline-border",
+                "relative z-0 p-3 outline outline-offset-0 outline-[#e7e5e4] dark:outline-[#242323]",
                 quantities[item.shortName] > 0 &&
                   "z-10 outline-muted-foreground",
               )}
