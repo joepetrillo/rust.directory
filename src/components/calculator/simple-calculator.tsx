@@ -235,7 +235,7 @@ export default function SimpleCalculator() {
               className={cn(
                 "relative z-0 p-3 outline outline-offset-0 outline-[#e7e5e4] dark:outline-[#242323]",
                 quantities[item.shortName] > 0 &&
-                  "z-10 outline-muted-foreground",
+                  "z-10 outline-muted-foreground dark:outline-muted-foreground",
               )}
             >
               <div className="flex h-full flex-col items-center justify-between gap-3">
