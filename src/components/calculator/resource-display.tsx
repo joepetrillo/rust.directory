@@ -21,7 +21,7 @@ const ResourceDisplay = memo(
         {!isTopLevel && (
           <div className="absolute top-[11px] -left-[27px] h-[2px] w-5 bg-border" />
         )}
-        <div className="relative h-6 w-6 flex-shrink-0">
+        <div className="relative h-6 w-6 shrink-0">
           <Image
             src={details.iconUrl}
             alt={details.displayName || resourceName}

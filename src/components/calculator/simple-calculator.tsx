@@ -223,7 +223,7 @@ export default function SimpleCalculator() {
         </div>
 
         {/* Boom selection */}
-        <div className="grid auto-rows-fr grid-cols-2 gap-[1px] md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid auto-rows-fr grid-cols-2 gap-px md:grid-cols-3 lg:grid-cols-4">
           {selectableExplosives.map((item) => (
             <div
               key={item.shortName}
@@ -239,7 +239,7 @@ export default function SimpleCalculator() {
               )}
             >
               <div className="flex h-full flex-col items-center justify-between gap-3">
-                <div className="relative h-12 w-12 flex-shrink-0">
+                <div className="relative h-12 w-12 shrink-0">
                   <Image
                     src={item.iconUrl}
                     alt={item.displayName}
@@ -350,7 +350,7 @@ export default function SimpleCalculator() {
                     <AccordionItem key={itemShortName} value={itemShortName}>
                       <AccordionTrigger className="items-center py-3">
                         <div className="flex items-center gap-2">
-                          <div className="relative h-8 w-8 flex-shrink-0">
+                          <div className="relative h-8 w-8 shrink-0">
                             <Image
                               src={item.iconUrl}
                               alt={item.displayName}
@@ -445,7 +445,7 @@ export default function SimpleCalculator() {
                         key={resourceName}
                         className="flex items-center gap-2 rounded-md border bg-muted/20 p-2.5"
                       >
-                        <div className="relative h-10 w-10 flex-shrink-0">
+                        <div className="relative h-10 w-10 shrink-0">
                           <Image
                             src={itemDetails.iconUrl}
                             alt={itemDetails.displayName || resourceName}
