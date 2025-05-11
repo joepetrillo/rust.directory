@@ -17,7 +17,7 @@ import { useEffect, useState, useTransition } from "react";
 
 export default function AuthStatus() {
   const [initialLoad, setInitialLoad] = useState(true);
-  const { data: session, isPending, error, refetch } = authClient.useSession();
+  const { data: session, isPending, refetch } = authClient.useSession();
   const router = useRouter();
   const pathname = usePathname();
   const [isNavPending, startTransition] = useTransition();
@@ -28,12 +28,6 @@ export default function AuthStatus() {
       setInitialLoad(false);
     }
   }, [isPending]);
-
-  // if there was an error loading the session
-  // TODO - handle this gracefully
-  if (error) {
-    throw error;
-  }
 
   const sessionStatus = session ? "authenticated" : "unauthenticated";
 
@@ -87,7 +81,7 @@ export default function AuthStatus() {
     return (
       <div
         key={sessionStatus}
-        className="transition-opacity duration-300 animate-in fade-in"
+        className="animate-in transition-opacity duration-300 fade-in"
       >
         <Button
           onClick={handleSteamLogin}
@@ -105,7 +99,7 @@ export default function AuthStatus() {
   return (
     <div
       key={sessionStatus}
-      className="flex items-center transition-opacity duration-300 animate-in fade-in"
+      className="flex animate-in items-center transition-opacity duration-300 fade-in"
     >
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
