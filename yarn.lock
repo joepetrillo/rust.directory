@@ -6728,7 +6728,7 @@ __metadata:
     sonner: "npm:^2.0.3"
     tailwind-merge: "npm:^3.3.0"
     tailwindcss: "npm:^4.1.6"
-    tailwindcss-animate: "npm:^1.0.7"
+    tw-animate-css: "npm:^1.2.9"
     typescript: "npm:^5.8.3"
     vaul: "npm:^1.1.2"
     zod: "npm:^3.24.4"
@@ -7223,15 +7223,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss-animate@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "tailwindcss-animate@npm:1.0.7"
-  peerDependencies:
-    tailwindcss: "*"
-  checksum: 10c0/ec7dbd1631076b97d66a1fbaaa06e0725fccfa63119221e8d87a997b02dcede98ad88bb1ef6665b968f5d260fcefb10592e0299ca70208d365b37761edf5e19a
-  languageName: node
-  linkType: hard
-
 "tailwindcss@npm:4.1.6, tailwindcss@npm:^4.1.6":
   version: 4.1.6
   resolution: "tailwindcss@npm:4.1.6"
@@ -7318,6 +7309,13 @@ __metadata:
   version: 2.8.1
   resolution: "tslib@npm:2.8.1"
   checksum: 10c0/9c4759110a19c53f992d9aae23aac5ced636e99887b51b9e61def52611732872ff7668757d4e4c61f19691e36f4da981cd9485e869b4a7408d689f6bf1f14e62
+  languageName: node
+  linkType: hard
+
+"tw-animate-css@npm:^1.2.9":
+  version: 1.2.9
+  resolution: "tw-animate-css@npm:1.2.9"
+  checksum: 10c0/ffbd6dfbb34490a8752b185b40192168ce4bfa69949d153dc831d9471dec2758501f27f1784b6615de7da73a546d01d7201ed691f5220fe3e0a53694cb275a3a
   languageName: node
   linkType: hard
 
